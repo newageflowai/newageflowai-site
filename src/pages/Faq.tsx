@@ -173,14 +173,7 @@ export default function Faq() {
               >
                 Standard
               </a>
-              <a
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-white/10"
-                href={TIER_LINKS.pro}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Pro
-              </a>
+       
             </div>
             <p className="mt-3 text-white/60">
               After purchase, Whop will prompt you to claim Discord access and assign the correct role.
