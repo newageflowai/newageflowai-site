@@ -1,18 +1,27 @@
-import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+// src/App.tsx
+import React from "react";
 
-const BRAND = "NewAge Flow AI";
+const BRAND = {
+  name: "NewAge Flow AI",
+  taglineTop: "Institutional Order Flow.",
+  taglineMid: "AI Precision.",
+  taglineBottom: "Real-Time Execution.",
+  primaryCta: "Join the Private Discord",
+  secondaryCta: "View Strategy Overview",
+};
 
+// ✅ “Join Discord” now routes to tiers section on your site
+const LINKS = {
+  discord: "#tiers",
+  overview: "#benefits",
+  tiers: "#tiers",
+};
+
+// ✅ Your tier links (Whop)
 const TIER_LINKS = {
   early: "https://whop.com/newageflowai/test-f7-6691/",
   standard: "https://whop.com/newageflowai/standard-25/",
   pro: "https://whop.com/newageflowai/pro-0b-9291/",
-};
-
-type FaqItem = {
-  q: string;
-  a: React.ReactNode;
-  tags?: string[];
 };
 
 function Badge({ children }: { children: React.ReactNode }) {
@@ -23,329 +32,468 @@ function Badge({ children }: { children: React.ReactNode }) {
   );
 }
 
+function Card({
+  icon,
+  title,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+      <div className="flex items-start gap-4">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-black/20">
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-base font-semibold text-white">{title}</h3>
+          <p className="mt-2 text-sm leading-6 text-white/75">{children}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SectionTitle({
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}) {
+  return (
+    <div className="mx-auto max-w-2xl text-center">
+      {eyebrow ? (
+        <div className="mb-3 flex justify-center">
+          <Badge>{eyebrow}</Badge>
+        </div>
+      ) : null}
+      <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        {title}
+      </h2>
+      {subtitle ? (
+        <p className="mt-3 text-sm leading-6 text-white/70 sm:text-base">
+          {subtitle}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 function GlowBg() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
       <div className="absolute top-48 -left-28 h-[460px] w-[460px] rounded-full bg-white/5 blur-3xl" />
       <div className="absolute bottom-0 right-0 h-[520px] w-[520px] rounded-full bg-white/5 blur-3xl" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.04)_1px,transparent_1px)] bg-[size:64px_64px] opacity-[0.08]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,.75)_100%)]" />
     </div>
   );
 }
 
-function FaqRow({
-  item,
-  isOpen,
-  onToggle,
-}: {
-  item: FaqItem;
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
+function Navbar() {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-      <button
-        onClick={onToggle}
-        className="flex w-full items-start justify-between gap-4 text-left"
-        aria-expanded={isOpen}
-      >
-        <div>
-          <div className="text-base font-semibold text-white">{item.q}</div>
-          {item.tags?.length ? (
-            <div className="mt-2 flex flex-wrap gap-2">
-              {item.tags.map((t) => (
-                <Badge key={t}>{t}</Badge>
-              ))}
-            </div>
-          ) : null}
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/25 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+        <div className="flex items-center gap-3">
+          <img
+            src="/newage-flow-ai-logo.png"
+            alt="NewAge Flow AI logo"
+            className="h-10 w-auto max-w-[180px] object-contain"
+          />
+          <div className="leading-tight">
+            <div className="text-sm font-semibold text-white">{BRAND.name}</div>
+            <div className="text-xs text-white/60">Order Flow • AI • Futures</div>
+          </div>
         </div>
 
-        <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-black/20 text-white/80">
-          {isOpen ? "−" : "+"}
-        </div>
-      </button>
+        <nav className="hidden items-center gap-6 sm:flex">
+          <a className="text-sm text-white/70 hover:text-white" href="#benefits">
+            What you get
+          </a>
+          <a className="text-sm text-white/70 hover:text-white" href="#for">
+            Who it’s for
+          </a>
+          <a className="text-sm text-white/70 hover:text-white" href="#tiers">
+            Discord tiers
+          </a>
+          <a className="text-sm text-white/70 hover:text-white" href="/faq">
+             FAQ
+          </a>
+        </nav>
 
-      {isOpen ? (
-        <div className="mt-4 space-y-3 text-sm leading-6 text-white/75">
-          {item.a}
+        <div className="flex items-center gap-2">
+          <a
+            href={LINKS.discord}
+            className="inline-flex rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90"
+          >
+            {BRAND.primaryCta}
+          </a>
         </div>
-      ) : null}
-    </div>
+      </div>
+    </header>
   );
 }
 
-export default function Faq() {
-  const [query, setQuery] = useState("");
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const items: FaqItem[] = useMemo(
-    () => [
-      {
-        q: "How do I get Discord access after purchasing a tier?",
-        tags: ["Access", "Discord", "Whop"],
-        a: (
-          <>
-            <p>
-              After you purchase on Whop, you must complete the <strong>Discord Claim Access</strong>{" "}
-              step to receive your server role.
-            </p>
-            <ol className="list-decimal space-y-2 pl-5">
-              <li>Log in to Whop using the same account you used to purchase.</li>
-              <li>Open your product page and click the <strong>Discord</strong> app.</li>
-              <li>Click <strong>Claim Access</strong>.</li>
-              <li>Approve the Discord authorization.</li>
-            </ol>
-            <p className="text-white/60">
-              If still having trouble with Discord account roles contact support@newageflowai.com
-            </p>
-          </>
-        ),
-      },
-      {
-        q: "I purchased but I still can’t see the channels. What do I do?",
-        tags: ["Troubleshooting"],
-        a: (
-          <>
-            <p>Try these in order:</p>
-            <ol className="list-decimal space-y-2 pl-5">
-              <li>Go back to Whop → Discord app → click <strong>Claim Access</strong> again.</li>
-              <li>Leave and re-join the Discord server, then re-claim access.</li>
-              <li>Close Discord completely and reopen (or log out/in).</li>
-              <li>Make sure your tier is active (not expired / failed payment).</li>
-            </ol>
-	    <p className="text-white/60">
-              If still having trouble with Discord channels contact support@newageflowai.com
-            </p>
-          </>
-        ),
-      },
-      {
-        q: "Why do I only see a preview message or no role assignment?",
-        tags: ["Roles", "Testing"],
-        a: (
-          <>
-            <p>This usually happens for one of these reasons:</p>
-            <ul className="list-disc space-y-2 pl-5">
-              <li>You haven’t completed the <strong>Claim Access</strong> step.</li>
-              <li>You are logged into a different Discord account than the one you want access on.</li>
-            </ul>
-            <p className="text-white/60">
-              If still having trouble with Discord roles contact support@newageflowai.com
-            </p>
-          </>
-        ),
-      },
-   
-      {
-        q: "Do I need to link Discord to Whop first?",
-        tags: ["Setup"],
-        a: (
-          <>
-            <p>
-              Yes. Linking happens automatically when you click <strong>Claim Access</strong>.
-              Without linking, Whop can’t assign your Discord role.
-            </p>
-            <p className="text-white/60">
-              If still having trouble with Discord link to Whop contact support@newageflowai.com
-            </p>
-          </>
-        ),
-      },
-      {
-        q: "Where do I join? (Tier links)",
-        tags: ["Tiers"],
-        a: (
-          <>
-            <p>Choose your tier below:</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-3">
-              <a
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-white/10"
-                href={TIER_LINKS.early}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Early Access
-              </a>
-              <a
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-white/10"
-                href={TIER_LINKS.standard}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Standard
-              </a>
-              <a
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-white/10"
-                href={TIER_LINKS.pro}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Pro
-              </a>
-            </div>
-            <p className="mt-3 text-white/60">
-              After purchase, Whop will prompt you to claim Discord access and assign the correct role.
-            </p>
-          </>
-        ),
-      },
-      {
-        q: "How do I upgrade or downgrade tiers?",
-        tags: ["Billing"],
-        a: (
-          <>
-            <p>
-              Manage your subscription inside Whop. After changing tiers, go to the product’s Discord app and
-              click <strong>Claim Access</strong> again so your role updates.
-            </p>
-       <p className="text-white/60">
-              If still having trouble with your subscription contact support@newageflowai.com
-            </p>
-          </>
-        ),
-      },
-      {
-        q: "Is this financial advice? Are results guaranteed?",
-        tags: ["Disclaimer"],
-        a: (
-          <>
-            <p>
-              No. {BRAND} is for educational purposes only. Trading involves risk and results are not guaranteed.
-              You are responsible for your own decisions and risk management.
-            </p>
-          </>
-        ),
-      },
-    ],
-    []
-  );
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return items;
-    return items.filter((it) => {
-      const inQ = it.q.toLowerCase().includes(q);
-      const inTags = (it.tags ?? []).join(" ").toLowerCase().includes(q);
-      return inQ || inTags;
-    });
-  }, [items, query]);
-
+function Hero() {
   return (
-    <div className="relative min-h-screen text-white">
-      <GlowBg />
+    <section className="relative">
+      <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 sm:pt-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <div className="flex justify-center">
+            <Badge>Private Discord • ES & NQ Futures • Order Flow</Badge>
+          </div>
 
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-black/25 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-          <div className="flex items-center gap-3">
-            <img
-              src="/newage-flow-ai-logo.png"
-              alt="NewAge Flow AI logo"
-              className="h-10 w-auto max-w-[180px] object-contain"
-            />
-            <div className="leading-tight">
-              <div className="text-sm font-semibold text-white">{BRAND}</div>
-              <div className="text-xs text-white/60">Support • FAQ</div>
+          <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-6xl">
+            {BRAND.name}
+          </h1>
+
+          <p className="mt-4 text-lg leading-7 text-white/75 sm:text-xl">
+            <span className="text-white">{BRAND.taglineTop}</span>{" "}
+            <span className="text-white">{BRAND.taglineMid}</span>{" "}
+            <span className="text-white">{BRAND.taglineBottom}</span>
+          </p>
+
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-6 text-white/70 sm:text-base">
+            Trade with AI-enhanced order flow analysis, professional execution models,
+            and real-time trade levels—built for serious traders who demand clarity,
+            structure, and precision.
+          </p>
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href={LINKS.discord}
+              className="inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90 sm:w-auto"
+            >
+              🔓 {BRAND.primaryCta}
+            </a>
+            <a
+              href={LINKS.overview}
+              className="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 sm:w-auto"
+            >
+              📊 {BRAND.secondaryCta}
+            </a>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-5xl">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur sm:p-10">
+            <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
+
+            <div className="grid gap-6 sm:grid-cols-3">
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                <div className="text-xs font-medium text-white/60">AI TRADE LEVELS</div>
+                <div className="mt-2 text-sm font-semibold text-white">
+                  Entry → Stop → Targets
+                </div>
+                <p className="mt-2 text-sm leading-6 text-white/70">
+                  Clean execution levels for every setup: entry, re-entry, stop,
+                  and T1–T3 targets.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                <div className="text-xs font-medium text-white/60">ORDER FLOW INTEL</div>
+                <div className="mt-2 text-sm font-semibold text-white">
+                  Liquidity & absorption
+                </div>
+                <p className="mt-2 text-sm leading-6 text-white/70">
+                  AI-assisted interpretation of liquidity behavior, imbalances,
+                  and momentum shifts.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                <div className="text-xs font-medium text-white/60">DISCORD CONTEXT</div>
+                <div className="mt-2 text-sm font-semibold text-white">
+                  Not just signals
+                </div>
+                <p className="mt-2 text-sm leading-6 text-white/70">
+                  Bias + reasoning + updates as conditions change—so you trade with
+                  clarity, not hope.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 sm:flex-row">
+              <div className="text-sm text-white/70">
+                Built for ES & NQ futures • Designed for clean execution
+              </div>
+              <a
+                href="#tiers"
+                className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+              >
+                🔓 Choose a Discord Tier
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Benefits() {
+  return (
+    <section id="benefits" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+      <SectionTitle
+        eyebrow="What you get"
+        title="Everything you need to execute with structure"
+        subtitle="No clutter. No hype. Clear trade plans with real-time context."
+      />
+
+      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+        <Card icon={<span className="text-white">📈</span>} title="AI Trade Levels">
+          Actionable trade plans: entry, re-entry, stop, and multiple targets (T1–T3).
+          Designed for clean execution and risk-defined decision-making.
+        </Card>
+
+        <Card icon={<span className="text-white">🔥</span>} title="Order Flow Intelligence">
+          AI-assisted analysis based on liquidity, absorption, imbalances, and momentum—focused
+          on where price is likely to react, not lag.
+        </Card>
+
+        <Card icon={<span className="text-white">🧠</span>} title="Live Discord Trade Context">
+          You get the “why,” not just the “what.” Bias, reasoning, and updates as the market shifts—
+          so you can adapt, not guess.
+        </Card>
+
+        <Card icon={<span className="text-white">⚙️</span>} title="Built for Professional Platforms">
+          Designed to complement NinjaTrader and Bookmap-style workflows—built by traders,
+          for traders who take execution seriously.
+        </Card>
+      </div>
+    </section>
+  );
+}
+
+function WhoFor() {
+  return (
+    <section id="for" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+      <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+        <div>
+          <SectionTitle
+            eyebrow="Who this is for"
+            title="Made for serious futures traders"
+            subtitle="If you trade ES/NQ and care about structure, risk, and execution—this is built for you."
+          />
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur sm:p-8">
+          <div className="grid gap-3 text-sm text-white/75">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5">✔</span>
+              <span>ES & NQ futures traders</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5">✔</span>
+              <span>Order flow & liquidity-based execution</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5">✔</span>
+              <span>NinjaTrader & Bookmap users</span>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5">✔</span>
+              <span>Traders who prefer precision over noise</span>
             </div>
           </div>
 
-          <nav className="flex items-center gap-4 text-sm">
-            <Link className="text-white/70 hover:text-white" to="/">
-              Home
-            </Link>
-            <a className="text-white/70 hover:text-white" href="#tiers">
-              Tiers
+          <div className="mt-6">
+            <a
+              href="#tiers"
+              className="inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+            >
+              🔓 Choose a Discord Tier
             </a>
-          </nav>
-        </div>
-      </header>
-
-      <main className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
-        <div className="text-center">
-          <div className="flex justify-center">
-            <Badge>Help Center</Badge>
           </div>
-          <h1 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Frequently Asked Questions
-          </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/70 sm:text-base">
-            Quick answers for Discord access, Whop tier setup, and troubleshooting.
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyUs() {
+  return (
+    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+      <SectionTitle
+        eyebrow="Why NewAge Flow AI"
+        title="Execution-first. Institutional mindset."
+        subtitle="Most groups sell noise. We focus on structure, clarity, and repeatable execution."
+      />
+
+      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <h3 className="text-base font-semibold text-white">No flashy promises</h3>
+          <p className="mt-2 text-sm leading-6 text-white/75">
+            We don’t sell hype or impossible win rates. We deliver risk-defined trade plans
+            designed for disciplined execution.
           </p>
         </div>
 
-        <div className="mx-auto mt-10 max-w-2xl">
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search FAQ… (claim access, roles, preview, upgrade)"
-            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none focus:border-white/20"
-          />
-          <div className="mt-2 text-xs text-white/50">
-            Try: <span className="text-white/70">claim</span>,{" "}
-            <span className="text-white/70">preview</span>,{" "}
-            <span className="text-white/70">roles</span>,{" "}
-            <span className="text-white/70">upgrade</span>.
-          </div>
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <h3 className="text-base font-semibold text-white">AI-assisted structure</h3>
+          <p className="mt-2 text-sm leading-6 text-white/75">
+            AI enhances context and structure—focused on liquidity and behavior—so your decisions
+            are cleaner, faster, and more consistent.
+          </p>
         </div>
 
-        <div className="mt-10 grid gap-4">
-          {filtered.map((item, idx) => {
-            const isOpen = openIndex === idx;
-            return (
-              <FaqRow
-                key={`${item.q}-${idx}`}
-                item={item}
-                isOpen={isOpen}
-                onToggle={() => setOpenIndex(isOpen ? null : idx)}
-              />
-            );
-          })}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <h3 className="text-base font-semibold text-white">Continuous refinement</h3>
+          <p className="mt-2 text-sm leading-6 text-white/75">
+            We iterate and improve. Signals are not “set and forget”—they evolve as our execution
+            model improves.
+          </p>
         </div>
 
-        <section
-          id="tiers"
-          className="mx-auto mt-12 max-w-5xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur sm:p-8"
-        >
-          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <div>
-              <div className="text-sm font-semibold text-white">Join a Tier</div>
-              <div className="mt-1 text-sm text-white/70">
-                Purchase the tier on Whop, then claim Discord access.
-              </div>
-            </div>
-            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-              <a
-                href={TIER_LINKS.early}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
-              >
-                Early Access
-              </a>
-              <a
-                href={TIER_LINKS.standard}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Standard
-              </a>
-              <a
-                href={TIER_LINKS.pro}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Pro
-              </a>
-            </div>
-          </div>
-        </section>
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <h3 className="text-base font-semibold text-white">Clarity over clutter</h3>
+          <p className="mt-2 text-sm leading-6 text-white/75">
+            The goal is simple: fewer decisions, better decisions. You get clean levels and context
+            without indicator overload.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        <p className="mt-10 text-center text-xs leading-5 text-white/45">
-          Trading involves risk. This FAQ is for guidance only and does not constitute financial advice.
+function Tiers() {
+  return (
+    <section id="tiers" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 sm:pb-28">
+      <SectionTitle
+        eyebrow="Discord access"
+        title="Choose your Discord tier"
+        subtitle="Pick the tier that matches your trading style. You’ll receive Discord access based on your subscription."
+      />
+
+      <div className="mt-10 grid gap-5 lg:grid-cols-3">
+        {/* Early Access */}
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-semibold text-white">Early Access</div>
+            <Badge>Starter</Badge>
+          </div>
+          <p className="mt-3 text-sm leading-6 text-white/70">
+            Get in early and access the community + core trade levels.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-white/75">
+            <li>• Discord access</li>
+            <li>• AI trade levels (entry/stop/targets)</li>
+            <li>• Community updates</li>
+          </ul>
+          <a
+            href={TIER_LINKS.early}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+          >
+            Continue to Early Access
+          </a>
+        </div>
+
+        {/* Standard */}
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-semibold text-white">Standard</div>
+            <Badge>Most Popular</Badge>
+          </div>
+          <p className="mt-3 text-sm leading-6 text-white/70">
+            The best balance of access + real-time context for consistent execution.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-white/75">
+            <li>• Everything in Early Access</li>
+            <li>• More frequent updates & trade context</li>
+            <li>• Priority channels</li>
+          </ul>
+          <a
+            href={TIER_LINKS.standard}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+          >
+            Continue to Standard
+          </a>
+        </div>
+
+        {/* Pro */}
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-semibold text-white">Pro</div>
+            <Badge>Max Access</Badge>
+          </div>
+          <p className="mt-3 text-sm leading-6 text-white/70">
+            For serious traders who want maximum context, execution focus, and premium access.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-white/75">
+            <li>• Everything in Standard and Early Access</li>
+            <li>• Pro-only channels</li>
+            <li>• Higher-touch updates & execution notes</li>
+          </ul>
+          <a
+            href={TIER_LINKS.pro}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+          >
+            Continue to Pro
+          </a>
+        </div>
+      </div>
+
+      <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-5 text-white/50">
+        After purchase, Whop will guide you to claim your Discord access. If you’re testing as the creator/admin account,
+        use a second Discord account to validate role claiming.
+      </p>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-white/10 bg-black/20">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <div className="text-sm text-white/70">
+            © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
+          </div>
+          <div className="flex items-center gap-4 text-sm">
+            <a className="text-white/60 hover:text-white" href="#benefits">
+              What you get
+            </a>
+            <a className="text-white/60 hover:text-white" href="#tiers">
+              Discord tiers
+            </a>
+          </div>
+        </div>
+        <p className="mt-6 text-center text-xs leading-5 text-white/45">
+          Trading involves risk. This site is for educational purposes and does not constitute financial advice.
         </p>
+      </div>
+    </footer>
+  );
+}
+
+export default function Home() {
+  return (
+    <div className="relative min-h-screen text-white">
+      <GlowBg />
+      <Navbar />
+      <main className="relative">
+        <Hero />
+        <Benefits />
+        <WhoFor />
+        <WhyUs />
+        <Tiers />
       </main>
+      <Footer />
     </div>
   );
 }
