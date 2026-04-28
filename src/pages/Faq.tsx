@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const BRAND = "NewAge Flow AI";
 
 const TIER_LINKS = {
-  early: "https://whop.com/newageflowai/test-f7-6691/",
+  early: "https://whop.com/newageflowai/early-access-55/",
   standard: "https://whop.com/newageflowai/standard-25/",
   pro: "https://whop.com/newageflowai/pro-0b-9291/",
 };
