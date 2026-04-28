@@ -145,95 +145,101 @@ function Hero() {
     <section className="relative">
       <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
+
           <div className="flex justify-center">
-            <Badge>Private Discord • ES & NQ Futures • Order Flow</Badge>
+            <Badge>ES & NQ Futures • Private Discord • Order Flow</Badge>
           </div>
 
-          <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-6xl">
-            {BRAND.name}
+          {/* 🔥 HEADLINE */}
+          <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-6xl leading-tight">
+            Stop guessing entries.
+            <br />
+            <span className="text-white/80">
+              Trade with structured, AI-assisted execution.
+            </span>
           </h1>
 
-          <p className="mt-4 text-lg leading-7 text-white/75 sm:text-xl">
-            <span className="text-white">{BRAND.taglineTop}</span>{" "}
-            <span className="text-white">{BRAND.taglineMid}</span>{" "}
-            <span className="text-white">{BRAND.taglineBottom}</span>
-          </p>
-
+          {/* 🔥 SUBTEXT */}
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-6 text-white/70 sm:text-base">
-            Trade with AI-enhanced order flow analysis, professional execution models,
-            and real-time trade levels—built for serious traders who demand clarity,
-            structure, and precision.
+            Get real trade plans with <strong>entry, stop, and targets</strong>—plus the context behind them.
+            Built for ES & NQ traders who want precision, not noise.
           </p>
 
+          {/* 🔥 CTA */}
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href={LINKS.discord}
-              className="inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90 sm:w-auto"
+              href="#tiers"
+              className="inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-4 text-base font-semibold text-black hover:bg-white/90 sm:w-auto"
             >
-              🔓 {BRAND.primaryCta}
+              🔓 Join Early Access
             </a>
-            <a
-              href={LINKS.overview}
-              className="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 sm:w-auto"
-            >
-              📊 {BRAND.secondaryCta}
-            </a>
+          </div>
+
+          {/* 🔥 URGENCY */}
+          <p className="mt-3 text-xs text-white/60">
+            ⚠️ Early access is limited to maintain signal quality
+          </p>
+
+          {/* 🔥 MICRO PROOF */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-white/55">
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              Entry / Re-entry / Stop
+            </span>
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              T1–T3 targets
+            </span>
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              Live execution context
+            </span>
           </div>
         </div>
 
-        <div className="mx-auto mt-12 max-w-5xl">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur sm:p-10">
-            <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute -left-24 -bottom-24 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
+        {/* 🔥 VISUAL PROOF CARD */}
+        <div className="mx-auto mt-12 max-w-4xl">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur">
 
-            <div className="grid gap-6 sm:grid-cols-3">
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                <div className="text-xs font-medium text-white/60">AI TRADE LEVELS</div>
-                <div className="mt-2 text-sm font-semibold text-white">
-                  Entry → Stop → Targets
-                </div>
-                <p className="mt-2 text-sm leading-6 text-white/70">
-                  Clean execution levels for every setup: entry, re-entry, stop,
-                  and T1–T3 targets.
-                </p>
+            <div className="text-xs text-white/60 mb-4">
+              Example Trade Plan
+            </div>
+
+            <div className="grid gap-3 text-sm">
+              <div className="flex justify-between bg-white/5 p-3 rounded-xl">
+                <span className="text-white/60">Bias</span>
+                <span className="text-white font-semibold">SHORT</span>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                <div className="text-xs font-medium text-white/60">ORDER FLOW INTEL</div>
-                <div className="mt-2 text-sm font-semibold text-white">
-                  Liquidity & absorption
-                </div>
-                <p className="mt-2 text-sm leading-6 text-white/70">
-                  AI-assisted interpretation of liquidity behavior, imbalances,
-                  and momentum shifts.
-                </p>
+              <div className="flex justify-between bg-white/5 p-3 rounded-xl">
+                <span className="text-white/60">Entry</span>
+                <span className="text-white font-semibold">6459.00</span>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
-                <div className="text-xs font-medium text-white/60">DISCORD CONTEXT</div>
-                <div className="mt-2 text-sm font-semibold text-white">
-                  Not just signals
+              <div className="flex justify-between bg-white/5 p-3 rounded-xl">
+                <span className="text-white/60">Stop</span>
+                <span className="text-white font-semibold">6463.00</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div className="bg-white/5 p-3 rounded-xl text-center">
+                  <div className="text-xs text-white/60">T1</div>
+                  <div className="text-white font-semibold">6455.00</div>
                 </div>
-                <p className="mt-2 text-sm leading-6 text-white/70">
-                  Bias + reasoning + updates as conditions change—so you trade with
-                  clarity, not hope.
-                </p>
+                <div className="bg-white/5 p-3 rounded-xl text-center">
+                  <div className="text-xs text-white/60">T2</div>
+                  <div className="text-white font-semibold">6450.00</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-xl text-center">
+                  <div className="text-xs text-white/60">T3</div>
+                  <div className="text-white font-semibold">6445.00</div>
+                </div>
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 sm:flex-row">
-              <div className="text-sm text-white/70">
-                Built for ES & NQ futures • Designed for clean execution
-              </div>
-              <a
-                href="#tiers"
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
-              >
-                🔓 Choose a Discord Tier
-              </a>
+            <div className="mt-4 text-xs text-white/60 text-center">
+              Not signals. Structured execution.
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );
