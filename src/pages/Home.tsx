@@ -367,90 +367,46 @@ function WhyUs() {
 
 function Tiers() {
   return (
-    <section id="tiers" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 sm:pb-28">
+    <section id="tiers" className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 sm:pb-28">
       <SectionTitle
         eyebrow="Discord access"
-        title="Choose your Discord tier"
-        subtitle="Pick the tier that matches your trading style. You’ll receive Discord access based on your subscription."
+        title="Early Access"
+        subtitle="Limited access to the NewAge Flow AI Discord. Get in early and start trading with structured execution."
       />
 
-      <div className="mt-10 grid gap-5 lg:grid-cols-3">
-        {/* Early Access */}
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+      <div className="mt-10">
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
           <div className="flex items-center justify-between">
-            <div className="text-sm font-semibold text-white">Early Access</div>
-            <Badge>Starter</Badge>
+            <div className="text-lg font-semibold text-white">Early Access</div>
+            <Badge>Limited</Badge>
           </div>
-          <p className="mt-3 text-sm leading-6 text-white/70">
-            Get in early and access the community + core trade levels.
+
+          <p className="mt-4 text-sm leading-6 text-white/70">
+            Get early access to the NewAge Flow AI Discord and trade with structured,
+            AI-assisted order flow analysis.
           </p>
-          <ul className="mt-4 space-y-2 text-sm text-white/75">
-            <li>• Discord access</li>
-            <li>• AI trade levels (entry/stop/targets)</li>
-            <li>• Community updates</li>
+
+          <ul className="mt-6 space-y-2 text-sm text-white/75">
+            <li>• Private Discord access</li>
+            <li>• AI trade levels (entry / stop / targets)</li>
+            <li>• Live trade context & updates</li>
+            <li>• Community access</li>
           </ul>
+
           <a
             href={TIER_LINKS.early}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+            className="mt-8 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-4 text-sm font-semibold text-black hover:bg-white/90"
           >
-            Continue to Early Access
-          </a>
-        </div>
-
-        {/* Standard */}
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-semibold text-white">Standard</div>
-            <Badge>Most Popular</Badge>
-          </div>
-          <p className="mt-3 text-sm leading-6 text-white/70">
-            The best balance of access + real-time context for consistent execution.
-          </p>
-          <ul className="mt-4 space-y-2 text-sm text-white/75">
-            <li>• Everything in Early Access</li>
-            <li>• More frequent updates & trade context</li>
-            <li>• Priority channels</li>
-          </ul>
-          <a
-            href={TIER_LINKS.standard}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
-          >
-            Continue to Standard
-          </a>
-        </div>
-
-        {/* Pro */}
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-semibold text-white">Pro</div>
-            <Badge>Max Access</Badge>
-          </div>
-          <p className="mt-3 text-sm leading-6 text-white/70">
-            For serious traders who want maximum context, execution focus, and premium access.
-          </p>
-          <ul className="mt-4 space-y-2 text-sm text-white/75">
-            <li>• Everything in Standard and Early Access</li>
-            <li>• Pro-only channels</li>
-            <li>• Higher-touch updates & execution notes</li>
-          </ul>
-          <a
-            href={TIER_LINKS.pro}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
-          >
-            Continue to Pro
+            🔓 Join Early Access
           </a>
         </div>
       </div>
 
-      <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-5 text-white/50">
-        After purchase, Whop will guide you to claim your Discord access. If you’re testing as the creator/admin account,
-        use a second Discord account to validate role claiming.
+      <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-5 text-white/50">
+        After purchase, Whop will guide you to claim your Discord access.
+        Use a non-admin Discord account when testing access.
       </p>
     </section>
   );
