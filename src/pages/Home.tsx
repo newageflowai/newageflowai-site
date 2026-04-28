@@ -20,8 +20,6 @@ const LINKS = {
 // ✅ Your tier links (Whop)
 const TIER_LINKS = {
   early: "https://whop.com/newageflowai/test-f7-6691/",
-  standard: "https://whop.com/newageflowai/standard-25/",
-  pro: "https://whop.com/newageflowai/pro-0b-9291/",
 };
 
 function Badge({ children }: { children: React.ReactNode }) {
