@@ -322,14 +322,6 @@ export default function Faq() {
               >
                 Early Access
               </a>
-              <a
-                href={TIER_LINKS.standard}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Standard
-              </a>
 
             </div>
           </div>
