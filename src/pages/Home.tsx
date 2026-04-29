@@ -1,27 +1,20 @@
-// src/App.tsx
+// src/pages/Home.tsx
 import React from "react";
 
 const BRAND = {
   name: "NewAge Flow AI",
-  taglineTop: "Institutional Order Flow.",
-  taglineMid: "AI Precision.",
-  taglineBottom: "Real-Time Execution.",
-  primaryCta: "Join the Private Discord",
+  primaryCta: "Join Early Access",
   secondaryCta: "View Strategy Overview",
 };
 
-// ✅ “Join Discord” now routes to tiers section on your site
 const LINKS = {
   discord: "#tiers",
   overview: "#benefits",
   tiers: "#tiers",
 };
 
-// ✅ Your tier links (Whop)
 const TIER_LINKS = {
-  early: "https://whop.com/newageflowai/early-access-55/",
-  standard: "https://whop.com/newageflowai/standard-25/",
-  pro: "https://whop.com/newageflowai/pro-0b-9291/",
+  early: "https://whop.com/newageflowai/test-f7-6691/",
 };
 
 function Badge({ children }: { children: React.ReactNode }) {
@@ -120,21 +113,19 @@ function Navbar() {
             Who it’s for
           </a>
           <a className="text-sm text-white/70 hover:text-white" href="#tiers">
-            Discord tiers
+            Early Access
           </a>
           <a className="text-sm text-white/70 hover:text-white" href="/faq">
-             FAQ
+            FAQ
           </a>
         </nav>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={LINKS.discord}
-            className="inline-flex rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90"
-          >
-            {BRAND.primaryCta}
-          </a>
-        </div>
+        <a
+          href={LINKS.discord}
+          className="inline-flex rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90"
+        >
+          {BRAND.primaryCta}
+        </a>
       </div>
     </header>
   );
@@ -145,13 +136,11 @@ function Hero() {
     <section className="relative">
       <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
-
           <div className="flex justify-center">
             <Badge>ES & NQ Futures • Private Discord • Order Flow</Badge>
           </div>
 
-          {/* 🔥 HEADLINE */}
-          <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-6xl leading-tight">
+          <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-tight text-white sm:text-6xl">
             Stop guessing entries.
             <br />
             <span className="text-white/80">
@@ -159,13 +148,12 @@ function Hero() {
             </span>
           </h1>
 
-          {/* 🔥 SUBTEXT */}
           <p className="mx-auto mt-6 max-w-2xl text-sm leading-6 text-white/70 sm:text-base">
-            Get real trade plans with <strong>entry, stop, and targets</strong>—plus the context behind them.
-            Built for ES & NQ traders who want precision, not noise.
+            Get real trade plans with <strong>entry, stop, and targets</strong> — plus
+            the context behind them. Built for ES & NQ traders who want precision,
+            not noise.
           </p>
 
-          {/* 🔥 CTA */}
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="#tiers"
@@ -173,14 +161,18 @@ function Hero() {
             >
               🔓 Join Early Access
             </a>
+            <a
+              href={LINKS.overview}
+              className="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-base font-semibold text-white hover:bg-white/10 sm:w-auto"
+            >
+              📊 View Strategy Overview
+            </a>
           </div>
 
-          {/* 🔥 URGENCY */}
           <p className="mt-3 text-xs text-white/60">
             ⚠️ Early access is limited to maintain signal quality
           </p>
 
-          {/* 🔥 MICRO PROOF */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-white/55">
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
               Entry / Re-entry / Stop
@@ -194,56 +186,52 @@ function Hero() {
           </div>
         </div>
 
-        {/* 🔥 VISUAL PROOF CARD */}
         <div className="mx-auto mt-12 max-w-4xl">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur">
-
-            <div className="text-xs text-white/60 mb-4">
-              Example Trade Plan
-            </div>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+            <div className="mb-4 text-xs text-white/60">Example Trade Plan</div>
 
             <div className="grid gap-3 text-sm">
-              <div className="flex justify-between bg-white/5 p-3 rounded-xl">
+              <div className="flex justify-between rounded-xl bg-white/5 p-3">
                 <span className="text-white/60">Bias</span>
-                <span className="text-white font-semibold">SHORT</span>
+                <span className="font-semibold text-white">SHORT</span>
               </div>
 
-              <div className="flex justify-between bg-white/5 p-3 rounded-xl">
+              <div className="flex justify-between rounded-xl bg-white/5 p-3">
                 <span className="text-white/60">Entry</span>
-                <span className="text-white font-semibold">6459.00</span>
+                <span className="font-semibold text-white">6459.00</span>
               </div>
 
-              <div className="flex justify-between bg-white/5 p-3 rounded-xl">
+              <div className="flex justify-between rounded-xl bg-white/5 p-3">
                 <span className="text-white/60">Stop</span>
-                <span className="text-white font-semibold">6463.00</span>
+                <span className="font-semibold text-white">6463.00</span>
               </div>
 
               <div className="grid grid-cols-3 gap-3">
-                <div className="bg-white/5 p-3 rounded-xl text-center">
+                <div className="rounded-xl bg-white/5 p-3 text-center">
                   <div className="text-xs text-white/60">T1</div>
-                  <div className="text-white font-semibold">6455.00</div>
+                  <div className="font-semibold text-white">6455.00</div>
                 </div>
-                <div className="bg-white/5 p-3 rounded-xl text-center">
+                <div className="rounded-xl bg-white/5 p-3 text-center">
                   <div className="text-xs text-white/60">T2</div>
-                  <div className="text-white font-semibold">6450.00</div>
+                  <div className="font-semibold text-white">6450.00</div>
                 </div>
-                <div className="bg-white/5 p-3 rounded-xl text-center">
+                <div className="rounded-xl bg-white/5 p-3 text-center">
                   <div className="text-xs text-white/60">T3</div>
-                  <div className="text-white font-semibold">6445.00</div>
+                  <div className="font-semibold text-white">6445.00</div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 text-xs text-white/60 text-center">
+            <div className="mt-4 text-center text-xs text-white/60">
               Not signals. Structured execution.
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
 }
+
 function InsideDiscord() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
@@ -259,9 +247,12 @@ function InsideDiscord() {
           <div className="mt-4 rounded-2xl bg-black/25 p-4">
             <div className="text-sm font-semibold text-white">ES Short Setup</div>
             <p className="mt-2 text-sm leading-6 text-white/70">
-              Bias: Short<br />
-              Entry: 6459.00<br />
-              Stop: 6463.00<br />
+              Bias: Short
+              <br />
+              Entry: 6459.00
+              <br />
+              Stop: 6463.00
+              <br />
               Targets: 6455 / 6450 / 6445
             </p>
           </div>
@@ -270,10 +261,12 @@ function InsideDiscord() {
         <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
           <div className="text-xs font-semibold text-white/50"># market-context</div>
           <div className="mt-4 rounded-2xl bg-black/25 p-4">
-            <div className="text-sm font-semibold text-white">Liquidity Rejection</div>
+            <div className="text-sm font-semibold text-white">
+              Liquidity Rejection
+            </div>
             <p className="mt-2 text-sm leading-6 text-white/70">
-              Price rejected upper liquidity zone. Watching for continuation below support
-              with absorption confirmation.
+              Price rejected upper liquidity zone. Watching for continuation below
+              support with absorption confirmation.
             </p>
           </div>
         </div>
@@ -281,10 +274,12 @@ function InsideDiscord() {
         <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
           <div className="text-xs font-semibold text-white/50"># live-updates</div>
           <div className="mt-4 rounded-2xl bg-black/25 p-4">
-            <div className="text-sm font-semibold text-white">Trade Management</div>
+            <div className="text-sm font-semibold text-white">
+              Trade Management
+            </div>
             <p className="mt-2 text-sm leading-6 text-white/70">
-              T1 reached. Reduce risk. Stop can move toward entry depending on execution
-              model and market response.
+              T1 reached. Reduce risk. Stop can move toward entry depending on
+              execution model and market response.
             </p>
           </div>
         </div>
@@ -313,23 +308,23 @@ function Benefits() {
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
         <Card icon={<span className="text-white">📈</span>} title="AI Trade Levels">
-          Actionable trade plans: entry, re-entry, stop, and multiple targets (T1–T3).
-          Designed for clean execution and risk-defined decision-making.
+          Actionable trade plans: entry, re-entry, stop, and multiple targets
+          (T1–T3). Designed for clean execution and risk-defined decision-making.
         </Card>
 
         <Card icon={<span className="text-white">🔥</span>} title="Order Flow Intelligence">
-          AI-assisted analysis based on liquidity, absorption, imbalances, and momentum—focused
-          on where price is likely to react, not lag.
+          AI-assisted analysis based on liquidity, absorption, imbalances, and
+          momentum — focused on where price is likely to react, not lag.
         </Card>
 
         <Card icon={<span className="text-white">🧠</span>} title="Live Discord Trade Context">
-          You get the “why,” not just the “what.” Bias, reasoning, and updates as the market shifts—
-          so you can adapt, not guess.
+          You get the why, not just the what. Bias, reasoning, and updates as the
+          market shifts — so you can adapt, not guess.
         </Card>
 
         <Card icon={<span className="text-white">⚙️</span>} title="Built for Professional Platforms">
-          Designed to complement NinjaTrader and Bookmap-style workflows—built by traders,
-          for traders who take execution seriously.
+          Designed to complement NinjaTrader and Bookmap-style workflows — built
+          by traders, for traders who take execution seriously.
         </Card>
       </div>
     </section>
@@ -344,7 +339,7 @@ function WhoFor() {
           <SectionTitle
             eyebrow="Who this is for"
             title="Made for serious futures traders"
-            subtitle="If you trade ES/NQ and care about structure, risk, and execution—this is built for you."
+            subtitle="If you trade ES/NQ and care about structure, risk, and execution — this is built for you."
           />
         </div>
 
@@ -366,6 +361,17 @@ function WhoFor() {
               <span className="mt-0.5">✔</span>
               <span>Traders who prefer precision over noise</span>
             </div>
+
+            <div className="my-2 border-t border-white/10" />
+
+            <div className="flex items-start gap-3 text-white/60">
+              <span className="mt-0.5">✖</span>
+              <span>Not for get-rich-quick mindsets</span>
+            </div>
+            <div className="flex items-start gap-3 text-white/60">
+              <span className="mt-0.5">✖</span>
+              <span>Not for random entries or gambling</span>
+            </div>
           </div>
 
           <div className="mt-6">
@@ -373,7 +379,7 @@ function WhoFor() {
               href="#tiers"
               className="inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
             >
-              🔓 Choose a Discord Tier
+              🔓 Join Early Access
             </a>
           </div>
         </div>
@@ -395,32 +401,32 @@ function WhyUs() {
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
           <h3 className="text-base font-semibold text-white">No flashy promises</h3>
           <p className="mt-2 text-sm leading-6 text-white/75">
-            We don’t sell hype or impossible win rates. We deliver risk-defined trade plans
-            designed for disciplined execution.
+            We don’t sell hype or impossible win rates. We deliver risk-defined
+            trade plans designed for disciplined execution.
           </p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
           <h3 className="text-base font-semibold text-white">AI-assisted structure</h3>
           <p className="mt-2 text-sm leading-6 text-white/75">
-            AI enhances context and structure—focused on liquidity and behavior—so your decisions
-            are cleaner, faster, and more consistent.
+            AI enhances context and structure — focused on liquidity and behavior —
+            so decisions are cleaner, faster, and more consistent.
           </p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
           <h3 className="text-base font-semibold text-white">Continuous refinement</h3>
           <p className="mt-2 text-sm leading-6 text-white/75">
-            We iterate and improve. Signals are not “set and forget”—they evolve as our execution
-            model improves.
+            Signals are not set and forget. The model evolves as execution logic
+            improves.
           </p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
           <h3 className="text-base font-semibold text-white">Clarity over clutter</h3>
           <p className="mt-2 text-sm leading-6 text-white/75">
-            The goal is simple: fewer decisions, better decisions. You get clean levels and context
-            without indicator overload.
+            Fewer decisions. Better decisions. Clean levels and context without
+            indicator overload.
           </p>
         </div>
       </div>
@@ -445,13 +451,13 @@ function Tiers() {
           </div>
 
           <p className="mt-4 text-sm leading-6 text-white/70">
-            Get early access to the NewAge Flow AI Discord and trade with structured,
-            AI-assisted order flow analysis.
+            Get early access to the NewAge Flow AI Discord and trade with
+            structured, AI-assisted order flow analysis.
           </p>
 
           <ul className="mt-6 space-y-2 text-sm text-white/75">
             <li>• Private Discord access</li>
-            <li>• AI trade levels (entry / stop / targets)</li>
+            <li>• AI trade levels: entry / stop / targets</li>
             <li>• Live trade context & updates</li>
             <li>• Community access</li>
           </ul>
@@ -468,8 +474,8 @@ function Tiers() {
       </div>
 
       <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-5 text-white/50">
-        After purchase, Whop will guide you to claim your Discord access.
-        Use a non-admin Discord account when testing access.
+        After purchase, Whop will guide you to claim your Discord access. Use a
+        non-admin Discord account when testing access.
       </p>
     </section>
   );
@@ -488,12 +494,16 @@ function Footer() {
               What you get
             </a>
             <a className="text-white/60 hover:text-white" href="#tiers">
-              Discord tiers
+              Early Access
+            </a>
+            <a className="text-white/60 hover:text-white" href="/faq">
+              FAQ
             </a>
           </div>
         </div>
         <p className="mt-6 text-center text-xs leading-5 text-white/45">
-          Trading involves risk. This site is for educational purposes and does not constitute financial advice.
+          Trading involves risk. This site is for educational purposes and does not
+          constitute financial advice.
         </p>
       </div>
     </footer>
