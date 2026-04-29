@@ -244,7 +244,63 @@ function Hero() {
     </section>
   );
 }
+function InsideDiscord() {
+  return (
+    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+      <SectionTitle
+        eyebrow="Inside the Discord"
+        title="See the structure before you trade"
+        subtitle="Members get clean trade plans, context, and updates designed for execution — not noise."
+      />
 
+      <div className="mt-10 grid gap-5 lg:grid-cols-3">
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <div className="text-xs font-semibold text-white/50"># trade-levels</div>
+          <div className="mt-4 rounded-2xl bg-black/25 p-4">
+            <div className="text-sm font-semibold text-white">ES Short Setup</div>
+            <p className="mt-2 text-sm leading-6 text-white/70">
+              Bias: Short<br />
+              Entry: 6459.00<br />
+              Stop: 6463.00<br />
+              Targets: 6455 / 6450 / 6445
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <div className="text-xs font-semibold text-white/50"># market-context</div>
+          <div className="mt-4 rounded-2xl bg-black/25 p-4">
+            <div className="text-sm font-semibold text-white">Liquidity Rejection</div>
+            <p className="mt-2 text-sm leading-6 text-white/70">
+              Price rejected upper liquidity zone. Watching for continuation below support
+              with absorption confirmation.
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
+          <div className="text-xs font-semibold text-white/50"># live-updates</div>
+          <div className="mt-4 rounded-2xl bg-black/25 p-4">
+            <div className="text-sm font-semibold text-white">Trade Management</div>
+            <p className="mt-2 text-sm leading-6 text-white/70">
+              T1 reached. Reduce risk. Stop can move toward entry depending on execution
+              model and market response.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 text-center">
+        <a
+          href="#tiers"
+          className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-4 text-sm font-semibold text-black hover:bg-white/90"
+        >
+          🔓 Join Early Access
+        </a>
+      </div>
+    </section>
+  );
+}
 
 function Benefits() {
   return (
@@ -451,6 +507,7 @@ export default function Home() {
       <Navbar />
       <main className="relative">
         <Hero />
+        <InsideDiscord />
         <Benefits />
         <WhoFor />
         <WhyUs />
