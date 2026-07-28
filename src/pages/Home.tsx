@@ -1,6 +1,7 @@
 // src/pages/Home.tsx
 // NewAge Flow AI — homepage
 import React from "react";
+import { TIERS, type Tier } from "../tiers";
 
 const BRAND = {
   name: "NewAge Flow AI",
@@ -8,8 +9,6 @@ const BRAND = {
   primaryCta: "Join Early Access",
   secondaryCta: "View Strategy",
 };
-
-const TIER_LINK = "https://whop.com/newageflowai/test-f7-6691/";
 
 // ─── Primitives ────────────────────────────────────────────────────────────
 
@@ -801,106 +800,153 @@ function WhyUs() {
   );
 }
 
+// ─── Tier card (used in 4-up grid) ────────────────────────────────────────
+
+function TierCard({ tier, featured = false }: { tier: Tier; featured?: boolean }) {
+  const isActive = tier.status === "active";
+  const ctaLabel = tier.id === "free" ? "Join Free" : tier.id === "early" ? "🔓 Join Early Access" : "Get Notified";
+
+  return (
+    <div
+      className="relative rounded-2xl p-7 sm:p-8 flex flex-col overflow-hidden h-full"
+      style={{
+        background: featured
+          ? "linear-gradient(180deg, var(--color-surface-2) 0%, var(--color-surface-1) 100%)"
+          : "var(--color-surface-1)",
+        border: featured
+          ? "1px solid var(--color-accent-line)"
+          : "1px solid var(--color-line)",
+        boxShadow: featured
+          ? "0 0 0 1px var(--color-accent-line), 0 1px 2px rgba(0,0,0,.4), 0 32px 80px -24px rgba(0,0,0,.6)"
+          : "0 1px 2px rgba(0,0,0,.4)",
+      }}
+    >
+      {featured && (
+        <div
+          aria-hidden
+          className="absolute -top-24 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse, rgba(200,255,59,.10) 0%, transparent 70%)",
+          }}
+        />
+      )}
+
+      <div className="relative flex flex-col h-full">
+        {/* Header row */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+            {tier.name}
+          </div>
+          {featured ? (
+            <span
+              className="px-2 py-0.5 rounded-md text-[10.5px] font-mono tracking-[0.08em] uppercase"
+              style={{
+                background: "var(--color-accent-soft)",
+                color: "var(--color-accent)",
+                border: "1px solid var(--color-accent-line)",
+              }}
+            >
+              Recommended
+            </span>
+          ) : tier.status === "coming_soon" ? (
+            <span
+              className="px-2 py-0.5 rounded-md text-[10.5px] font-mono tracking-[0.08em] uppercase"
+              style={{
+                background: "var(--color-surface-3)",
+                color: "var(--color-ink-3)",
+                border: "1px solid var(--color-line)",
+              }}
+            >
+              Coming Soon
+            </span>
+          ) : null}
+        </div>
+
+        {/* Price row */}
+        <div className="flex items-baseline gap-1.5 mb-2">
+          <span
+            className={
+              (tier.price === "Free" ? "text-[36px]" : "text-[40px]") +
+              " font-medium tracking-[-0.04em] tabular leading-none text-[color:var(--color-ink-1)]"
+            }
+          >
+            {tier.price}
+          </span>
+          {tier.cadence && (
+            <span className="text-[13px] text-[color:var(--color-ink-3)]">{tier.cadence}</span>
+          )}
+        </div>
+        <p className="text-[12.5px] text-[color:var(--color-ink-3)] leading-[1.55] mb-5 min-h-[36px]">
+          {tier.blurb}
+        </p>
+
+        {/* Features */}
+        <ul className="space-y-2 mb-6 text-[13px] text-[color:var(--color-ink-2)] flex-1">
+          {tier.features.map((line) => (
+            <li key={line} className="flex items-start gap-2.5">
+              <span
+                className="mt-1 w-1.5 h-1.5 rounded-full shrink-0"
+                style={{
+                  background: featured ? "var(--color-accent)" : "var(--color-ink-4)",
+                  boxShadow: featured ? "0 0 8px var(--color-accent)" : "none",
+                }}
+              />
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        {isActive && tier.url ? (
+          <PrimaryButton href={tier.url} external>
+            {ctaLabel}
+          </PrimaryButton>
+        ) : (
+          <button
+            disabled
+            className="inline-flex items-center justify-center gap-2 h-11 px-5 rounded-lg text-[13.5px] font-medium tracking-[-0.01em] cursor-not-allowed w-full"
+            style={{
+              background: "var(--color-surface-3)",
+              color: "var(--color-ink-3)",
+              border: "1px solid var(--color-line)",
+            }}
+            aria-label={`${tier.name} — coming soon`}
+          >
+            <span className="opacity-60">Coming Soon</span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Tiers ─────────────────────────────────────────────────────────────────
 
 function Tiers() {
   return (
     <section id="tiers" className="mx-auto max-w-[1200px] px-5 pb-24 sm:px-8 sm:pb-32">
-      <div className="mx-auto max-w-2xl text-center mb-14">
+      <div className="mx-auto max-w-2xl text-center mb-12">
         <div className="flex justify-center mb-4">
-          <Eyebrow>Discord access</Eyebrow>
+          <Eyebrow>Tiers</Eyebrow>
         </div>
         <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
-          Early Access.
+          Pick your access level.
         </h2>
         <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
-          Limited access to the NewAge Flow AI Discord. Get in early and start trading with structured execution.
+          Free public Discord, or jump to Early Access for AI trade levels and live context.
+          Standard and Pro tiers open soon.
         </p>
       </div>
 
-      <div className="mx-auto max-w-[520px]">
-        {/* Anchor above the price — sharper visual hierarchy */}
-        <div className="flex items-center justify-center gap-3 mb-5 text-[12px] font-mono tracking-[0.04em]">
-          <span className="line-through text-[color:var(--color-ink-4)] tabular">$197 / month</span>
-          <span
-            className="px-2 py-0.5 rounded-md"
-            style={{
-              background: "var(--color-accent-soft)",
-              color: "var(--color-accent)",
-              border: "1px solid var(--color-accent-line)",
-            }}
-          >
-            Public launch price
-          </span>
-        </div>
-
-        <div
-          className="rounded-2xl p-8 sm:p-10 relative overflow-hidden"
-          style={{
-            background:
-              "linear-gradient(180deg, var(--color-surface-2) 0%, var(--color-surface-1) 100%)",
-            border: "1px solid var(--color-line)",
-            boxShadow:
-              "0 1px 2px rgba(0,0,0,.4), 0 32px 80px -24px rgba(0,0,0,.6)",
-          }}
-        >
-          <div
-            aria-hidden
-            className="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse, rgba(200,255,59,.10) 0%, transparent 70%)",
-            }}
-          />
-          <div className="relative">
-            <div className="flex items-center justify-between mb-6">
-              <div className="text-[18px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
-                Early Access
-              </div>
-              <div className="flex items-center gap-2 text-[11px] font-mono tracking-[0.06em] uppercase text-[color:var(--color-ink-3)]">
-                <StatusDot />
-                Open · 50-seat cap
-              </div>
-            </div>
-
-            <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-[48px] font-medium tracking-[-0.04em] tabular text-[color:var(--color-ink-1)] leading-none">
-                $97
-              </span>
-              <span className="text-[14px] text-[color:var(--color-ink-3)]">/ month</span>
-            </div>
-            <p className="text-[12px] font-mono text-[color:var(--color-ink-4)] mb-6">
-              cancel anytime · billed monthly · USD
-            </p>
-
-            <ul className="space-y-2.5 mb-8 text-[13.5px] text-[color:var(--color-ink-2)]">
-              {[
-                "Private Discord access",
-                "AI trade levels: entry / stop / targets",
-                "Live trade context & updates",
-                "Community access",
-              ].map((line) => (
-                <li key={line} className="flex items-start gap-2.5">
-                  <span
-                    className="mt-1 w-1.5 h-1.5 rounded-full shrink-0"
-                    style={{ background: "var(--color-accent)", boxShadow: "0 0 8px var(--color-accent)" }}
-                  />
-                  <span>{line}</span>
-                </li>
-              ))}
-            </ul>
-
-            <PrimaryButton href={TIER_LINK} external>
-              🔓 Join Early Access
-            </PrimaryButton>
-
-            <p className="mt-5 text-[11.5px] text-[color:var(--color-ink-4)] leading-[1.55]">
-              After purchase, Whop will guide you to claim your Discord access. Use a
-              non-admin Discord account when testing.
-            </p>
-          </div>
-        </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
+        {TIERS.map((tier) => (
+          <TierCard key={tier.id} tier={tier} featured={tier.highlight === true} />
+        ))}
       </div>
+
+      <p className="mx-auto mt-10 max-w-2xl text-center text-[12px] leading-[1.55] text-[color:var(--color-ink-4)]">
+        After purchase, Whop will guide you to claim your Discord access. Use a non-admin Discord account when testing.
+      </p>
     </section>
   );
 }

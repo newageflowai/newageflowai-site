@@ -2,19 +2,10 @@
 // NewAge Flow AI — FAQ / Help Center
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { TIERS } from "../tiers";
 
 const BRAND = "NewAge Flow AI";
 const TAGLINE = "Support · Discord Access · Whop";
-
-// ⚠ TIER LINKS — Home.tsx and Faq.tsx must point to the SAME Whop product.
-// Home.tsx currently uses: test-f7-6691 (single tier).
-// Faq.tsx lists three tiers: early-access-55, standard-25, pro-0b-9291.
-// Update these to match the URLs in your live Whop dashboard.
-const TIER_LINKS = {
-  early: "https://whop.com/newageflowai/test-f7-6691/",
-  standard: "https://whop.com/newageflowai/standard-25/",
-  pro: "https://whop.com/newageflowai/pro-0b-9291/",
-};
 
 // ─── Primitives ────────────────────────────────────────────────────────────
 
@@ -231,20 +222,22 @@ export default function Faq() {
         a: (
           <>
             <p>Choose your tier below:</p>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              {[
-                { name: "Early Access", href: TIER_LINKS.early, accent: true },
-                { name: "Standard", href: TIER_LINKS.standard },
-                { name: "Pro", href: TIER_LINKS.pro },
-              ].map((t) => (
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {TIERS.map((t) => (
                 <a
-                  key={t.name}
-                  href={t.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-xl px-4 py-3 text-center text-[13px] font-medium tracking-[-0.01em] transition-all duration-200 hover:-translate-y-px"
+                  key={t.id}
+                  href={t.url ?? "#"}
+                  target={t.url ? "_blank" : undefined}
+                  rel={t.url ? "noreferrer" : undefined}
+                  aria-disabled={t.status === "coming_soon"}
+                  className={
+                    "rounded-xl px-4 py-3 text-center text-[13px] font-medium tracking-[-0.01em] transition-all duration-200 " +
+                    (t.status === "coming_soon"
+                      ? "opacity-60 cursor-not-allowed"
+                      : "hover:-translate-y-px")
+                  }
                   style={
-                    t.accent
+                    t.highlight
                       ? {
                           background: "var(--color-accent)",
                           color: "var(--color-accent-ink)",
@@ -332,7 +325,7 @@ export default function Faq() {
             <a href="#tiers" className="hidden sm:inline text-[13px] text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">
               Tiers
             </a>
-            <PrimaryButton href={TIER_LINKS.early} external>Join</PrimaryButton>
+            <PrimaryButton href={TIERS[0].url ?? "#"} external>Join</PrimaryButton>
           </nav>
         </div>
       </header>
@@ -449,8 +442,12 @@ export default function Faq() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2.5">
-              <GhostButton href={TIER_LINKS.standard}>See Standard</GhostButton>
-              <PrimaryButton href={TIER_LINKS.early} external>Early Access</PrimaryButton>
+              <GhostButton href={TIERS.find((t) => t.id === "free")?.url ?? "#"}>
+                Start Free
+              </GhostButton>
+              <PrimaryButton href={TIERS.find((t) => t.id === "early")?.url ?? "#"} external>
+                Join Early Access
+              </PrimaryButton>
             </div>
           </div>
         </section>
