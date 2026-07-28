@@ -117,7 +117,7 @@ function Navbar() {
           <img
             src="/newage-flow-ai-logo.png"
             alt="NewAge Flow AI logo"
-            className="h-16 w-auto object-contain opacity-60"
+            className="h-16 w-auto object-contain"
           />
           <div className="hidden sm:block leading-tight">
             <div className="text-[13px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
@@ -178,6 +178,7 @@ function Hero() {
             filter: "blur(40px)",
           }}
         />
+        {/* Ambient grid pattern (background texture). Decorative only. */}
         <div
           className="absolute inset-0 opacity-[0.06]"
           style={{
@@ -189,14 +190,6 @@ function Hero() {
             WebkitMaskImage:
               "radial-gradient(ellipse at center, black 30%, transparent 80%)",
           }}
-        />
-        {/* Brand watermark — large, faded logo behind hero text. Decorative only. */}
-        <img
-          src="/newage-flow-ai-logo.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(900px,90vw)] max-w-none select-none"
-          style={{ opacity: 0.045, filter: "blur(0.5px)" }}
         />
       </div>
 
@@ -1288,14 +1281,53 @@ function Footer() {
 
 // ─── Page ──────────────────────────────────────────────────────────────────
 
+// ─── Site Watermark ────────────────────────────────────────────────────────
+
+// Large, faded brand watermark. Sits as an absolutely-positioned element
+// inside a positioned wrapper that contains the top sections of the page.
+// Scrolls WITH the page (not fixed to viewport). Visible behind Hero,
+// Inside Discord, and Benefits, then the wrapper ends and the rest of
+// the page sits on the plain canvas. Decorative only — aria-hidden.
+function SiteWatermark() {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute top-0 left-0 right-0 h-[200vh] pointer-events-none overflow-hidden select-none"
+      style={{
+        // The watermark logo sits centered in the visible region. Fades
+        // vertically so the bottom edge doesn't have a hard cutoff.
+        maskImage:
+          "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
+      }}
+    >
+      <img
+        src="/newage-flow-ai-logo.png"
+        alt=""
+        className="absolute top-[20vh] left-1/2 -translate-x-1/2 w-[min(1400px,140vw)] max-w-none"
+        style={{ opacity: 0.06 }}
+      />
+    </div>
+  );
+}
+
+// ─── Home ──────────────────────────────────────────────────────────────────
+
 export default function Home() {
   return (
     <div className="min-h-screen relative" style={{ background: "var(--color-canvas)" }}>
       <Navbar />
       <main>
-        <Hero />
-        <InsideDiscord />
-        <Benefits />
+        {/* Watermark wrapper — covers Hero + Inside Discord + Benefits.
+            Sections inside this div are positioned relative so the
+            absolutely-positioned watermark sits behind them. */}
+        <div className="relative">
+          <SiteWatermark />
+          <Hero />
+          <InsideDiscord />
+          <Benefits />
+        </div>
         <WhoFor />
         <WhyUs />
         <TrackRecord />
