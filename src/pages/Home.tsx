@@ -1,521 +1,978 @@
 // src/pages/Home.tsx
+// NewAge Flow AI — homepage
 import React from "react";
 
 const BRAND = {
   name: "NewAge Flow AI",
+  tagline: "Order Flow • AI • Futures",
   primaryCta: "Join Early Access",
-  secondaryCta: "View Strategy Overview",
+  secondaryCta: "View Strategy",
 };
 
-const LINKS = {
-  discord: "#tiers",
-  overview: "#benefits",
-  tiers: "#tiers",
-};
+const TIER_LINK = "https://whop.com/newageflowai/test-f7-6691/";
 
-const TIER_LINKS = {
-  early: "https://whop.com/newageflowai/test-f7-6691/",
-};
+// ─── Primitives ────────────────────────────────────────────────────────────
 
-function Badge({ children }: { children: React.ReactNode }) {
+function Eyebrow({ children, muted = false }: { children: React.ReactNode; muted?: boolean }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80 backdrop-blur">
+    <span
+      className={
+        "eyebrow" + (muted ? " text-[color:var(--color-ink-3)] after:text-[color:var(--color-ink-4)]" : "")
+      }
+    >
       {children}
     </span>
   );
 }
 
-function Card({
-  icon,
-  title,
+function StatusDot({ color = "var(--color-pos)" }: { color?: string }) {
+  return (
+    <span
+      className="inline-block w-1.5 h-1.5 rounded-full"
+      style={{ background: color, boxShadow: `0 0 10px ${color}` }}
+    />
+  );
+}
+
+function PrimaryButton({
+  href,
   children,
+  external = false,
 }: {
-  icon: React.ReactNode;
-  title: string;
+  href: string;
   children: React.ReactNode;
+  external?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-      <div className="flex items-start gap-4">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-black/20">
-          {icon}
-        </div>
-        <div>
-          <h3 className="text-base font-semibold text-white">{title}</h3>
-          <p className="mt-2 text-sm leading-6 text-white/75">{children}</p>
-        </div>
-      </div>
-    </div>
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      className="
+        group inline-flex items-center justify-center gap-2
+        h-11 px-5 rounded-lg
+        text-[13.5px] font-medium tracking-[-0.01em]
+        text-[color:var(--color-accent-ink)]
+        bg-[color:var(--color-accent)]
+        transition-all duration-200
+        hover:bg-[color:var(--color-accent)]
+        hover:-translate-y-px
+        active:translate-y-0
+      "
+      style={{
+        boxShadow:
+          "0 0 0 1px var(--color-accent-line), 0 1px 0 rgba(255,255,255,.4) inset, 0 0 24px var(--color-accent-glow)",
+      }}
+    >
+      {children}
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="none"
+        className="transition-transform duration-200 group-hover:translate-x-0.5"
+        aria-hidden
+      >
+        <path d="M1 6h10M7 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </a>
   );
 }
 
-function SectionTitle({
-  eyebrow,
-  title,
-  subtitle,
-}: {
-  eyebrow?: string;
-  title: string;
-  subtitle?: string;
-}) {
+function GhostButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
-      {eyebrow ? (
-        <div className="mb-3 flex justify-center">
-          <Badge>{eyebrow}</Badge>
-        </div>
-      ) : null}
-      <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-        {title}
-      </h2>
-      {subtitle ? (
-        <p className="mt-3 text-sm leading-6 text-white/70 sm:text-base">
-          {subtitle}
-        </p>
-      ) : null}
-    </div>
+    <a
+      href={href}
+      className="
+        inline-flex items-center justify-center gap-2
+        h-11 px-5 rounded-lg
+        text-[13.5px] font-medium tracking-[-0.01em]
+        text-[color:var(--color-ink-1)]
+        bg-[color:var(--color-surface-1)]
+        border border-[color:var(--color-line)]
+        transition-all duration-200
+        hover:bg-[color:var(--color-surface-2)]
+        hover:border-[color:var(--color-ink-4)]
+        hover:-translate-y-px
+        active:translate-y-0
+      "
+    >
+      {children}
+    </a>
   );
 }
 
-function GlowBg() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
-      <div className="absolute top-48 -left-28 h-[460px] w-[460px] rounded-full bg-white/5 blur-3xl" />
-      <div className="absolute bottom-0 right-0 h-[520px] w-[520px] rounded-full bg-white/5 blur-3xl" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.04)_1px,transparent_1px)] bg-[size:64px_64px] opacity-[0.08]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,.75)_100%)]" />
-    </div>
-  );
-}
+// ─── Navbar ────────────────────────────────────────────────────────────────
 
 function Navbar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/25 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-3">
+    <header
+      className="sticky top-0 z-50 backdrop-blur-md"
+      style={{
+        background: "rgba(7,9,15,.72)",
+        borderBottom: "1px solid var(--color-line)",
+      }}
+    >
+      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-3.5 sm:px-8">
+        <a href="/" className="flex items-center gap-3 group">
           <img
             src="/newage-flow-ai-logo.png"
             alt="NewAge Flow AI logo"
-            className="h-10 w-auto max-w-[180px] object-contain"
+            className="h-9 w-auto object-contain"
           />
-          <div className="leading-tight">
-            <div className="text-sm font-semibold text-white">{BRAND.name}</div>
-            <div className="text-xs text-white/60">Order Flow • AI • Futures</div>
+          <div className="hidden sm:block leading-tight">
+            <div className="text-[13px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+              {BRAND.name}
+            </div>
+            <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">
+              {BRAND.tagline}
+            </div>
           </div>
-        </div>
+        </a>
 
-        <nav className="hidden items-center gap-6 sm:flex">
-          <a className="text-sm text-white/70 hover:text-white" href="#benefits">
+        <nav className="hidden items-center gap-7 md:flex">
+          <a href="#benefits" className="text-[13px] text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">
             What you get
           </a>
-          <a className="text-sm text-white/70 hover:text-white" href="#for">
-            Who it’s for
+          <a href="#for" className="text-[13px] text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">
+            Who it's for
           </a>
-          <a className="text-sm text-white/70 hover:text-white" href="#tiers">
-            Early Access
+          <a href="#why" className="text-[13px] text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">
+            Why us
           </a>
-          <a className="text-sm text-white/70 hover:text-white" href="/faq">
+          <a href="/faq" className="text-[13px] text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">
             FAQ
           </a>
         </nav>
 
-        <a
-          href={LINKS.discord}
-          className="inline-flex rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90"
-        >
-          {BRAND.primaryCta}
-        </a>
+        <PrimaryButton href="#tiers">{BRAND.primaryCta}</PrimaryButton>
       </div>
     </header>
   );
 }
 
+// ─── Hero ──────────────────────────────────────────────────────────────────
+
 function Hero() {
   return (
-    <section className="relative">
-      <div className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 sm:pt-24">
+    <section className="relative overflow-hidden">
+      {/* Ambient background — restrained, not generic */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(200,255,59,.10) 0%, transparent 60%)",
+            filter: "blur(40px)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.5) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            maskImage:
+              "radial-gradient(ellipse at center, black 30%, transparent 80%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse at center, black 30%, transparent 80%)",
+          }}
+        />
+      </div>
+
+      <div className="relative mx-auto max-w-[1200px] px-5 pt-20 pb-24 sm:px-8 sm:pt-28 sm:pb-32">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="flex justify-center">
-            <Badge>ES & NQ Futures • Private Discord • Order Flow</Badge>
+          <div className="flex justify-center mb-6">
+            <Eyebrow>
+              <StatusDot />
+              ES & NQ Futures · Private Discord
+            </Eyebrow>
           </div>
 
-          <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-tight text-white sm:text-6xl">
+          <h1 className="h-display text-[clamp(40px,5.8vw,76px)] text-[color:var(--color-ink-1)]">
             Stop guessing entries.
             <br />
-            <span className="text-white/80">
-              Trade with structured, AI-assisted execution.
+            <span className="text-[color:var(--color-ink-3)]">
+              Trade with structure.
             </span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-6 text-white/70 sm:text-base">
-            Get real trade plans with <strong>entry, stop, and targets</strong> — plus
-            the context behind them. Built for ES & NQ traders who want precision,
-            not noise.
+          <p className="mx-auto mt-6 max-w-xl text-[15px] leading-[1.65] text-[color:var(--color-ink-2)] sm:text-base">
+            AI-assisted order flow analysis for ES & NQ futures.
+            Structured trade plans — entry, stop, targets, and the
+            context behind them.
           </p>
 
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="#tiers"
-              className="inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-4 text-base font-semibold text-black hover:bg-white/90 sm:w-auto"
-            >
-              🔓 Join Early Access
-            </a>
-            <a
-              href={LINKS.overview}
-              className="inline-flex w-full items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-base font-semibold text-white hover:bg-white/10 sm:w-auto"
-            >
-              📊 View Strategy Overview
-            </a>
+          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <PrimaryButton href="#tiers">🔓 Join Early Access</PrimaryButton>
+            <GhostButton href="#benefits">📊 View Strategy</GhostButton>
           </div>
 
-          <p className="mt-3 text-xs text-white/60">
-            ⚠️ Early access is limited to maintain signal quality
+          <p className="mt-4 text-[11px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-4)]">
+            ⚠ Early access is limited to maintain signal quality
           </p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs text-white/55">
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
-              Entry / Re-entry / Stop
-            </span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
-              T1–T3 targets
-            </span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
-              Live execution context
-            </span>
-          </div>
         </div>
 
-        <div className="mx-auto mt-12 max-w-4xl">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-            <div className="mb-4 text-xs text-white/60">Example Trade Plan</div>
-
-            <div className="grid gap-3 text-sm">
-              <div className="flex justify-between rounded-xl bg-white/5 p-3">
-                <span className="text-white/60">Bias</span>
-                <span className="font-semibold text-white">SHORT</span>
-              </div>
-
-              <div className="flex justify-between rounded-xl bg-white/5 p-3">
-                <span className="text-white/60">Entry</span>
-                <span className="font-semibold text-white">6459.00</span>
-              </div>
-
-              <div className="flex justify-between rounded-xl bg-white/5 p-3">
-                <span className="text-white/60">Stop</span>
-                <span className="font-semibold text-white">6463.00</span>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3">
-                <div className="rounded-xl bg-white/5 p-3 text-center">
-                  <div className="text-xs text-white/60">T1</div>
-                  <div className="font-semibold text-white">6455.00</div>
+        {/* Hero artifact — real trade plan, mono numerics, sharp hierarchy */}
+        <div className="mx-auto mt-20 max-w-2xl">
+          <div
+            className="relative rounded-2xl p-px"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 100%)",
+            }}
+          >
+            <div
+              className="rounded-2xl overflow-hidden"
+              style={{
+                background: "var(--color-surface-1)",
+                boxShadow:
+                  "0 1px 2px rgba(0,0,0,.4), 0 24px 60px -16px rgba(0,0,0,.6)",
+              }}
+            >
+              {/* Terminal-style header */}
+              <div
+                className="flex items-center justify-between px-5 py-3 border-b"
+                style={{ borderColor: "var(--color-line)" }}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="dot-live" />
+                  <span className="text-[11px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">
+                    live · es 09-26 · 5m
+                  </span>
                 </div>
-                <div className="rounded-xl bg-white/5 p-3 text-center">
-                  <div className="text-xs text-white/60">T2</div>
-                  <div className="font-semibold text-white">6450.00</div>
+                <span className="text-[11px] font-mono text-[color:var(--color-ink-4)]">
+                  #trade-levels
+                </span>
+              </div>
+
+              {/* Trade plan body */}
+              <div className="p-5 sm:p-6">
+                <div className="flex items-baseline justify-between mb-5">
+                  <div>
+                    <div className="text-[10.5px] font-mono tracking-[0.1em] uppercase text-[color:var(--color-ink-3)] mb-1">
+                      Setup
+                    </div>
+                    <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                      ES Short — Liquidity Rejection
+                    </div>
+                  </div>
+                  <div
+                    className="px-2.5 py-1 rounded-md text-[10.5px] font-mono tracking-[0.08em] uppercase"
+                    style={{
+                      background: "rgba(248,113,113,.10)",
+                      color: "var(--color-neg)",
+                      border: "1px solid rgba(248,113,113,.22)",
+                    }}
+                  >
+                    Short
+                  </div>
                 </div>
-                <div className="rounded-xl bg-white/5 p-3 text-center">
-                  <div className="text-xs text-white/60">T3</div>
-                  <div className="font-semibold text-white">6445.00</div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-px rounded-xl overflow-hidden" style={{ background: "var(--color-line)" }}>
+                  <div className="bg-[color:var(--color-surface-2)] p-4">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">Entry</div>
+                    <div className="text-[18px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                      6459.00
+                    </div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-2)] p-4">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">Stop</div>
+                    <div className="text-[18px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-neg)]">
+                      6463.00
+                    </div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-2)] p-4">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">Invalidation</div>
+                    <div className="text-[13px] tabular text-[color:var(--color-ink-2)] leading-tight">
+                      Close &gt; 6465.25
+                    </div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-2)] p-4">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">R:R</div>
+                    <div className="text-[18px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-accent)]">
+                      1:2.4
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 grid grid-cols-3 gap-px rounded-xl overflow-hidden" style={{ background: "var(--color-line)" }}>
+                  <div className="bg-[color:var(--color-surface-1)] p-3.5 text-center">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T1</div>
+                    <div className="text-[15px] tabular font-medium text-[color:var(--color-ink-1)]">6455.00</div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-1)] p-3.5 text-center">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T2</div>
+                    <div className="text-[15px] tabular font-medium text-[color:var(--color-ink-1)]">6450.00</div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-1)] p-3.5 text-center">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T3</div>
+                    <div className="text-[15px] tabular font-medium text-[color:var(--color-ink-1)]">6445.00</div>
+                  </div>
+                </div>
+
+                <div className="mt-5 pt-4 border-t flex items-center justify-between" style={{ borderColor: "var(--color-line)" }}>
+                  <span className="text-[11px] font-mono text-[color:var(--color-ink-4)]">
+                    context · absorption at 6459 / rejection wick 6464.50
+                  </span>
+                  <span className="text-[11px] font-mono text-[color:var(--color-ink-3)]">
+                    not signals · structured execution
+                  </span>
                 </div>
               </div>
-            </div>
-
-            <div className="mt-4 text-center text-xs text-white/60">
-              Not signals. Structured execution.
             </div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+// ─── Inside Discord ────────────────────────────────────────────────────────
+
+function DiscordChannel({
+  channel,
+  title,
+  body,
+  pills,
+  className = "",
+}: {
+  channel: string;
+  title: string;
+  body: React.ReactNode;
+  pills?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <article
+      className={"rounded-2xl overflow-hidden " + className}
+      style={{
+        background: "var(--color-surface-1)",
+        border: "1px solid var(--color-line)",
+        boxShadow: "0 1px 2px rgba(0,0,0,.4), 0 24px 60px -24px rgba(0,0,0,.6)",
+      }}
+    >
+      <div className="flex items-center justify-between px-4 py-2.5 border-b" style={{ borderColor: "var(--color-line)" }}>
+        <div className="flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-ink-4)" aria-hidden>
+            <path d="M5.886 4.85c-.79-.4-1.62-.7-2.49-.86l-.21 1.36c.79.18 1.55.46 2.27.84l.43-1.34zm12.228 0l.43 1.34c.72-.38 1.48-.66 2.27-.84l-.21-1.36c-.87.16-1.7.46-2.49.86zM9.05 14.6c1.18 0 2.13-.96 2.13-2.13 0-1.18-.96-2.13-2.13-2.13-1.18 0-2.13.96-2.13 2.13 0 1.18.96 2.13 2.13 2.13zm5.9 0c1.18 0 2.13-.96 2.13-2.13 0-1.18-.96-2.13-2.13-2.13-1.18 0-2.13.96-2.13 2.13 0 1.18.96 2.13 2.13 2.13z" />
+          </svg>
+          <span className="text-[12.5px] font-mono tracking-[0.02em] text-[color:var(--color-ink-2)]">
+            {channel}
+          </span>
+        </div>
+        <span className="text-[10.5px] font-mono text-[color:var(--color-ink-4)]">today</span>
+      </div>
+
+      <div className="px-5 py-4">
+        <div className="flex items-baseline gap-2 mb-2.5">
+          <div
+            className="w-7 h-7 rounded-full flex items-center justify-center text-[10.5px] font-medium tracking-[-0.01em] text-[color:var(--color-accent-ink)]"
+            style={{ background: "var(--color-accent)" }}
+          >
+            NA
+          </div>
+          <div className="text-[13.5px] font-medium text-[color:var(--color-ink-1)]">NewAge Flow</div>
+          <div className="text-[10.5px] font-mono text-[color:var(--color-ink-4)]">bot</div>
+        </div>
+
+        <div className="text-[14px] font-medium tracking-[-0.005em] text-[color:var(--color-ink-1)] mb-1.5">
+          {title}
+        </div>
+        <div className="text-[13.5px] leading-[1.55] text-[color:var(--color-ink-2)]">
+          {body}
+        </div>
+
+        {pills && <div className="mt-4 flex flex-wrap gap-1.5">{pills}</div>}
+      </div>
+    </article>
+  );
+}
+
+function DiscordPill({ children, accent = false }: { children: React.ReactNode; accent?: boolean }) {
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-mono tracking-[0.02em]"
+      style={
+        accent
+          ? {
+              background: "var(--color-accent-soft)",
+              color: "var(--color-accent)",
+              border: "1px solid var(--color-accent-line)",
+            }
+          : {
+              background: "var(--color-surface-2)",
+              color: "var(--color-ink-2)",
+              border: "1px solid var(--color-line)",
+            }
+      }
+    >
+      {children}
+    </span>
   );
 }
 
 function InsideDiscord() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-      <SectionTitle
-        eyebrow="Inside the Discord"
-        title="See the structure before you trade"
-        subtitle="Members get clean trade plans, context, and updates designed for execution — not noise."
-      />
-
-      <div className="mt-10 grid gap-5 lg:grid-cols-3">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <div className="text-xs font-semibold text-white/50"># trade-levels</div>
-          <div className="mt-4 rounded-2xl bg-black/25 p-4">
-            <div className="text-sm font-semibold text-white">ES Short Setup</div>
-            <p className="mt-2 text-sm leading-6 text-white/70">
-              Bias: Short
-              <br />
-              Entry: 6459.00
-              <br />
-              Stop: 6463.00
-              <br />
-              Targets: 6455 / 6450 / 6445
-            </p>
-          </div>
+    <section className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-2xl text-center mb-14">
+        <div className="flex justify-center mb-4">
+          <Eyebrow>Inside the Discord</Eyebrow>
         </div>
-
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <div className="text-xs font-semibold text-white/50"># market-context</div>
-          <div className="mt-4 rounded-2xl bg-black/25 p-4">
-            <div className="text-sm font-semibold text-white">
-              Liquidity Rejection
-            </div>
-            <p className="mt-2 text-sm leading-6 text-white/70">
-              Price rejected upper liquidity zone. Watching for continuation below
-              support with absorption confirmation.
-            </p>
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <div className="text-xs font-semibold text-white/50"># live-updates</div>
-          <div className="mt-4 rounded-2xl bg-black/25 p-4">
-            <div className="text-sm font-semibold text-white">
-              Trade Management
-            </div>
-            <p className="mt-2 text-sm leading-6 text-white/70">
-              T1 reached. Reduce risk. Stop can move toward entry depending on
-              execution model and market response.
-            </p>
-          </div>
-        </div>
+        <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+          See the structure before you trade.
+        </h2>
+        <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+          Members get clean trade plans, context, and updates designed for execution — not noise.
+        </p>
       </div>
 
-      <div className="mt-8 text-center">
-        <a
-          href="#tiers"
-          className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-4 text-sm font-semibold text-black hover:bg-white/90"
-        >
-          🔓 Join Early Access
-        </a>
+      <div className="grid gap-4 lg:grid-cols-3">
+        <DiscordChannel
+          channel="# trade-levels"
+          title="ES Short Setup"
+          body={
+            <>
+              Bias: <strong className="text-[color:var(--color-ink-1)] font-medium">Short</strong>
+              <br />
+              Entry 6459.00 · Stop 6463.00
+              <br />
+              Targets 6455 / 6450 / 6445
+            </>
+          }
+          pills={
+            <>
+              <DiscordPill accent>SHORT</DiscordPill>
+              <DiscordPill>R:R 1:2.4</DiscordPill>
+              <DiscordPill>Invalidation 6465.25</DiscordPill>
+            </>
+          }
+        />
+        <DiscordChannel
+          channel="# market-context"
+          title="Liquidity Rejection"
+          body={
+            <>
+              Price rejected the upper liquidity zone. Watching for continuation
+              below support with absorption confirmation.
+            </>
+          }
+          pills={
+            <>
+              <DiscordPill>absorption</DiscordPill>
+              <DiscordPill>imbalance</DiscordPill>
+            </>
+          }
+        />
+        <DiscordChannel
+          channel="# live-updates"
+          title="Trade Management"
+          body={
+            <>
+              T1 reached. Reduce risk. Stop can move toward entry depending on
+              execution model and market response.
+            </>
+          }
+          pills={
+            <>
+              <DiscordPill accent>T1 HIT</DiscordPill>
+              <DiscordPill>manage risk</DiscordPill>
+            </>
+          }
+        />
+      </div>
+
+      <div className="mt-12 text-center">
+        <PrimaryButton href="#tiers">Join Early Access</PrimaryButton>
       </div>
     </section>
   );
 }
+
+// ─── Benefits ──────────────────────────────────────────────────────────────
 
 function Benefits() {
   return (
-    <section id="benefits" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-      <SectionTitle
-        eyebrow="What you get"
-        title="Everything you need to execute with structure"
-        subtitle="No clutter. No hype. Clear trade plans with real-time context."
-      />
+    <section id="benefits" className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-2xl text-center mb-14">
+        <div className="flex justify-center mb-4">
+          <Eyebrow>What you get</Eyebrow>
+        </div>
+        <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+          Everything you need to execute with structure.
+        </h2>
+        <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+          No clutter. No hype. Clear trade plans with real-time context.
+        </p>
+      </div>
 
-      <div className="mt-10 grid gap-5 sm:grid-cols-2">
-        <Card icon={<span className="text-white">📈</span>} title="AI Trade Levels">
-          Actionable trade plans: entry, re-entry, stop, and multiple targets
-          (T1–T3). Designed for clean execution and risk-defined decision-making.
-        </Card>
+      {/* Asymmetric layout — break the identical-card-stamp pattern */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        {/* Featured card spans 2 cols */}
+        <div
+          className="lg:col-span-2 rounded-2xl p-7 sm:p-9 relative overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(180deg, var(--color-surface-2) 0%, var(--color-surface-1) 100%)",
+            border: "1px solid var(--color-line)",
+          }}
+        >
+          <div
+            aria-hidden
+            className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(200,255,59,.08) 0%, transparent 70%)",
+            }}
+          />
+          <div className="relative">
+            <div className="flex items-center gap-3 mb-5">
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-[18px]"
+                style={{
+                  background: "var(--color-accent-soft)",
+                  border: "1px solid var(--color-accent-line)",
+                }}
+              >
+                📈
+              </div>
+              <div>
+                <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">
+                  01
+                </div>
+                <div className="text-[16px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                  AI Trade Levels
+                </div>
+              </div>
+            </div>
+            <p className="text-[14.5px] leading-[1.65] text-[color:var(--color-ink-2)] max-w-xl">
+              Actionable trade plans with <strong className="text-[color:var(--color-ink-1)] font-medium">entry, re-entry, stop, and three targets</strong>.
+              Designed for clean execution and risk-defined decision-making — not
+              indicator clutter.
+            </p>
 
-        <Card icon={<span className="text-white">🔥</span>} title="Order Flow Intelligence">
-          AI-assisted analysis based on liquidity, absorption, imbalances, and
-          momentum — focused on where price is likely to react, not lag.
-        </Card>
+            {/* Mini artifact preview */}
+            <div className="mt-6 grid grid-cols-4 gap-px rounded-lg overflow-hidden" style={{ background: "var(--color-line)" }}>
+              {["Entry", "Stop", "T1", "T2"].map((k) => (
+                <div key={k} className="bg-[color:var(--color-surface-1)] p-3">
+                  <div className="text-[9.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-4)] mb-0.5">{k}</div>
+                  <div className="text-[13px] tabular font-medium text-[color:var(--color-ink-1)]">6459.00</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
-        <Card icon={<span className="text-white">🧠</span>} title="Live Discord Trade Context">
-          You get the why, not just the what. Bias, reasoning, and updates as the
-          market shifts — so you can adapt, not guess.
-        </Card>
+        {/* Right column — two stacked cards with different visuals */}
+        <div className="grid gap-4">
+          <div
+            className="rounded-2xl p-6"
+            style={{
+              background: "var(--color-surface-1)",
+              border: "1px solid var(--color-line)",
+            }}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-[16px]"
+                style={{
+                  background: "var(--color-surface-3)",
+                  border: "1px solid var(--color-line)",
+                }}
+              >
+                🔥
+              </div>
+              <div>
+                <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">02</div>
+                <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                  Order Flow Intel
+                </div>
+              </div>
+            </div>
+            <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)]">
+              AI-assisted analysis on liquidity, absorption, imbalances, and
+              momentum — focused on where price is likely to react.
+            </p>
+          </div>
 
-        <Card icon={<span className="text-white">⚙️</span>} title="Built for Professional Platforms">
-          Designed to complement NinjaTrader and Bookmap-style workflows — built
-          by traders, for traders who take execution seriously.
-        </Card>
+          <div
+            className="rounded-2xl p-6"
+            style={{
+              background: "var(--color-surface-1)",
+              border: "1px solid var(--color-line)",
+            }}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-[16px]"
+                style={{
+                  background: "var(--color-surface-3)",
+                  border: "1px solid var(--color-line)",
+                }}
+              >
+                🧠
+              </div>
+              <div>
+                <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">03</div>
+                <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                  Live Context
+                </div>
+              </div>
+            </div>
+            <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)]">
+              You get the why, not just the what. Bias, reasoning, and updates as
+              the market shifts — so you can adapt.
+            </p>
+          </div>
+        </div>
+
+        {/* Full-width card spanning 3 cols */}
+        <div
+          className="lg:col-span-3 rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center gap-5"
+          style={{
+            background: "var(--color-surface-1)",
+            border: "1px solid var(--color-line)",
+          }}
+        >
+          <div
+            className="w-12 h-12 rounded-lg flex items-center justify-center text-[20px] shrink-0"
+            style={{
+              background: "var(--color-surface-3)",
+              border: "1px solid var(--color-line)",
+            }}
+          >
+            ⚙️
+          </div>
+          <div className="flex-1">
+            <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">04</div>
+            <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)] mt-0.5">
+              Built for Professional Platforms
+            </div>
+            <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)] mt-1.5 max-w-2xl">
+              Designed to complement NinjaTrader and Bookmap-style workflows —
+              built by traders, for traders who take execution seriously.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <DiscordPill>NinjaTrader</DiscordPill>
+            <DiscordPill>Bookmap</DiscordPill>
+            <DiscordPill>Order Flow</DiscordPill>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
+
+// ─── Who For ───────────────────────────────────────────────────────────────
 
 function WhoFor() {
   return (
-    <section id="for" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-      <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-        <div>
-          <SectionTitle
-            eyebrow="Who this is for"
-            title="Made for serious futures traders"
-            subtitle="If you trade ES/NQ and care about structure, risk, and execution — this is built for you."
-          />
+    <section id="for" className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="grid gap-10 lg:grid-cols-5 lg:items-center">
+        <div className="lg:col-span-2">
+          <div className="mb-4">
+            <Eyebrow>Who this is for</Eyebrow>
+          </div>
+          <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+            Made for serious futures traders.
+          </h2>
+          <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+            If you trade ES/NQ and care about structure, risk, and execution —
+            this is built for you.
+          </p>
         </div>
 
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur sm:p-8">
-          <div className="grid gap-3 text-sm text-white/75">
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5">✔</span>
-              <span>ES & NQ futures traders</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5">✔</span>
-              <span>Order flow & liquidity-based execution</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5">✔</span>
-              <span>NinjaTrader & Bookmap users</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="mt-0.5">✔</span>
-              <span>Traders who prefer precision over noise</span>
-            </div>
-
-            <div className="my-2 border-t border-white/10" />
-
-            <div className="flex items-start gap-3 text-white/60">
-              <span className="mt-0.5">✖</span>
-              <span>Not for get-rich-quick mindsets</span>
-            </div>
-            <div className="flex items-start gap-3 text-white/60">
-              <span className="mt-0.5">✖</span>
-              <span>Not for random entries or gambling</span>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <a
-              href="#tiers"
-              className="inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-black hover:bg-white/90"
+        <div className="lg:col-span-3 grid sm:grid-cols-2 gap-3">
+          {[
+            { yes: true,  text: "ES & NQ futures traders" },
+            { yes: true,  text: "Order flow & liquidity-based execution" },
+            { yes: true,  text: "NinjaTrader & Bookmap users" },
+            { yes: true,  text: "Traders who prefer precision over noise" },
+            { yes: false, text: "Get-rich-quick mindsets" },
+            { yes: false, text: "Random entries or gambling" },
+          ].map((row, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-3 p-4 rounded-xl"
+              style={{
+                background: "var(--color-surface-1)",
+                border: "1px solid var(--color-line)",
+              }}
             >
-              🔓 Join Early Access
-            </a>
-          </div>
+              <span
+                className="w-6 h-6 rounded-md flex items-center justify-center text-[12px] shrink-0"
+                style={
+                  row.yes
+                    ? {
+                        background: "var(--color-accent-soft)",
+                        color: "var(--color-accent)",
+                        border: "1px solid var(--color-accent-line)",
+                      }
+                    : {
+                        background: "var(--color-surface-3)",
+                        color: "var(--color-ink-4)",
+                        border: "1px solid var(--color-line)",
+                      }
+                }
+              >
+                {row.yes ? "✓" : "×"}
+              </span>
+              <span
+                className="text-[13.5px]"
+                style={{
+                  color: row.yes ? "var(--color-ink-1)" : "var(--color-ink-3)",
+                  textDecoration: row.yes ? "none" : "line-through",
+                  textDecorationColor: "var(--color-ink-4)",
+                }}
+              >
+                {row.text}
+              </span>
+            </div>
+          ))}
         </div>
+      </div>
+
+      <div className="mt-12 text-center">
+        <PrimaryButton href="#tiers">Join Early Access</PrimaryButton>
       </div>
     </section>
   );
 }
+
+// ─── Why Us ────────────────────────────────────────────────────────────────
 
 function WhyUs() {
+  const points = [
+    {
+      title: "No flashy promises",
+      body: "We don't sell hype or impossible win rates. We deliver risk-defined trade plans for disciplined execution.",
+    },
+    {
+      title: "AI-assisted structure",
+      body: "AI enhances context on liquidity and behavior — so decisions are cleaner, faster, and more consistent.",
+    },
+    {
+      title: "Continuous refinement",
+      body: "Signals are not set-and-forget. The model evolves as execution logic improves.",
+    },
+    {
+      title: "Clarity over clutter",
+      body: "Fewer decisions. Better decisions. Clean levels and context without indicator overload.",
+    },
+  ];
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-      <SectionTitle
-        eyebrow="Why NewAge Flow AI"
-        title="Execution-first. Institutional mindset."
-        subtitle="Most groups sell noise. We focus on structure, clarity, and repeatable execution."
-      />
-
-      <div className="mt-10 grid gap-5 sm:grid-cols-2">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <h3 className="text-base font-semibold text-white">No flashy promises</h3>
-          <p className="mt-2 text-sm leading-6 text-white/75">
-            We don’t sell hype or impossible win rates. We deliver risk-defined
-            trade plans designed for disciplined execution.
-          </p>
+    <section id="why" className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-2xl text-center mb-14">
+        <div className="flex justify-center mb-4">
+          <Eyebrow>Why NewAge Flow AI</Eyebrow>
         </div>
+        <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+          Execution-first. Institutional mindset.
+        </h2>
+        <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+          Most groups sell noise. We focus on structure, clarity, and repeatable execution.
+        </p>
+      </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <h3 className="text-base font-semibold text-white">AI-assisted structure</h3>
-          <p className="mt-2 text-sm leading-6 text-white/75">
-            AI enhances context and structure — focused on liquidity and behavior —
-            so decisions are cleaner, faster, and more consistent.
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <h3 className="text-base font-semibold text-white">Continuous refinement</h3>
-          <p className="mt-2 text-sm leading-6 text-white/75">
-            Signals are not set and forget. The model evolves as execution logic
-            improves.
-          </p>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <h3 className="text-base font-semibold text-white">Clarity over clutter</h3>
-          <p className="mt-2 text-sm leading-6 text-white/75">
-            Fewer decisions. Better decisions. Clean levels and context without
-            indicator overload.
-          </p>
-        </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {points.map((p, i) => (
+          <div
+            key={p.title}
+            className="rounded-2xl p-6 sm:p-7 relative"
+            style={{
+              background: "var(--color-surface-1)",
+              border: "1px solid var(--color-line)",
+            }}
+          >
+            <div className="text-[44px] font-medium tracking-[-0.04em] leading-none text-[color:var(--color-accent)] opacity-30 mb-3 tabular">
+              0{i + 1}
+            </div>
+            <h3 className="text-[16px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)] mb-2">
+              {p.title}
+            </h3>
+            <p className="text-[13.5px] leading-[1.65] text-[color:var(--color-ink-2)]">
+              {p.body}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
 }
+
+// ─── Tiers ─────────────────────────────────────────────────────────────────
 
 function Tiers() {
   return (
-    <section id="tiers" className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 sm:pb-28">
-      <SectionTitle
-        eyebrow="Discord access"
-        title="Early Access"
-        subtitle="Limited access to the NewAge Flow AI Discord. Get in early and start trading with structured execution."
-      />
-
-      <div className="mt-10">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-[0_0_0_1px_rgba(255,255,255,.08),0_18px_60px_rgba(0,0,0,.65)] backdrop-blur">
-          <div className="flex items-center justify-between">
-            <div className="text-lg font-semibold text-white">Early Access</div>
-            <Badge>Limited</Badge>
-          </div>
-
-          <p className="mt-4 text-sm leading-6 text-white/70">
-            Get early access to the NewAge Flow AI Discord and trade with
-            structured, AI-assisted order flow analysis.
-          </p>
-
-          <ul className="mt-6 space-y-2 text-sm text-white/75">
-            <li>• Private Discord access</li>
-            <li>• AI trade levels: entry / stop / targets</li>
-            <li>• Live trade context & updates</li>
-            <li>• Community access</li>
-          </ul>
-
-          <a
-            href={TIER_LINKS.early}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 inline-flex w-full items-center justify-center rounded-2xl bg-white px-6 py-4 text-sm font-semibold text-black hover:bg-white/90"
-          >
-            🔓 Join Early Access
-          </a>
+    <section id="tiers" className="mx-auto max-w-[1200px] px-5 pb-24 sm:px-8 sm:pb-32">
+      <div className="mx-auto max-w-2xl text-center mb-14">
+        <div className="flex justify-center mb-4">
+          <Eyebrow>Discord access</Eyebrow>
         </div>
+        <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+          Early Access.
+        </h2>
+        <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+          Limited access to the NewAge Flow AI Discord. Get in early and start trading with structured execution.
+        </p>
       </div>
 
-      <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-5 text-white/50">
-        After purchase, Whop will guide you to claim your Discord access. Use a
-        non-admin Discord account when testing access.
-      </p>
+      <div className="mx-auto max-w-[520px]">
+        {/* Anchor above the price — sharper visual hierarchy */}
+        <div className="flex items-center justify-center gap-3 mb-5 text-[12px] font-mono tracking-[0.04em]">
+          <span className="line-through text-[color:var(--color-ink-4)] tabular">$197 / month</span>
+          <span
+            className="px-2 py-0.5 rounded-md"
+            style={{
+              background: "var(--color-accent-soft)",
+              color: "var(--color-accent)",
+              border: "1px solid var(--color-accent-line)",
+            }}
+          >
+            Public launch price
+          </span>
+        </div>
+
+        <div
+          className="rounded-2xl p-8 sm:p-10 relative overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(180deg, var(--color-surface-2) 0%, var(--color-surface-1) 100%)",
+            border: "1px solid var(--color-line)",
+            boxShadow:
+              "0 1px 2px rgba(0,0,0,.4), 0 32px 80px -24px rgba(0,0,0,.6)",
+          }}
+        >
+          <div
+            aria-hidden
+            className="absolute -top-24 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse, rgba(200,255,59,.10) 0%, transparent 70%)",
+            }}
+          />
+          <div className="relative">
+            <div className="flex items-center justify-between mb-6">
+              <div className="text-[18px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                Early Access
+              </div>
+              <div className="flex items-center gap-2 text-[11px] font-mono tracking-[0.06em] uppercase text-[color:var(--color-ink-3)]">
+                <StatusDot />
+                Open · 50-seat cap
+              </div>
+            </div>
+
+            <div className="flex items-baseline gap-2 mb-1">
+              <span className="text-[48px] font-medium tracking-[-0.04em] tabular text-[color:var(--color-ink-1)] leading-none">
+                $97
+              </span>
+              <span className="text-[14px] text-[color:var(--color-ink-3)]">/ month</span>
+            </div>
+            <p className="text-[12px] font-mono text-[color:var(--color-ink-4)] mb-6">
+              cancel anytime · billed monthly · USD
+            </p>
+
+            <ul className="space-y-2.5 mb-8 text-[13.5px] text-[color:var(--color-ink-2)]">
+              {[
+                "Private Discord access",
+                "AI trade levels: entry / stop / targets",
+                "Live trade context & updates",
+                "Community access",
+              ].map((line) => (
+                <li key={line} className="flex items-start gap-2.5">
+                  <span
+                    className="mt-1 w-1.5 h-1.5 rounded-full shrink-0"
+                    style={{ background: "var(--color-accent)", boxShadow: "0 0 8px var(--color-accent)" }}
+                  />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
+
+            <PrimaryButton href={TIER_LINK} external>
+              🔓 Join Early Access
+            </PrimaryButton>
+
+            <p className="mt-5 text-[11.5px] text-[color:var(--color-ink-4)] leading-[1.55]">
+              After purchase, Whop will guide you to claim your Discord access. Use a
+              non-admin Discord account when testing.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
 
+// ─── Footer ────────────────────────────────────────────────────────────────
+
 function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black/20">
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <div className="text-sm text-white/70">
-            © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
+    <footer
+      className="mt-12"
+      style={{
+        background: "var(--color-surface-1)",
+        borderTop: "1px solid var(--color-line)",
+      }}
+    >
+      <div className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8">
+        <div className="grid gap-10 sm:grid-cols-3 mb-10">
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <img src="/newage-flow-ai-logo.png" alt="NewAge Flow AI logo" className="h-7 w-auto" />
+              <span className="text-[13px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                {BRAND.name}
+              </span>
+            </div>
+            <p className="text-[12.5px] text-[color:var(--color-ink-3)] leading-[1.55] max-w-xs">
+              AI-assisted order flow signals for ES & NQ futures traders. Built for execution, not hype.
+            </p>
           </div>
-          <div className="flex items-center gap-4 text-sm">
-            <a className="text-white/60 hover:text-white" href="#benefits">
-              What you get
-            </a>
-            <a className="text-white/60 hover:text-white" href="#tiers">
-              Early Access
-            </a>
-            <a className="text-white/60 hover:text-white" href="/faq">
-              FAQ
-            </a>
+
+          <div>
+            <h4 className="text-[10.5px] font-mono tracking-[0.1em] uppercase text-[color:var(--color-ink-4)] mb-4">
+              Product
+            </h4>
+            <div className="flex flex-col gap-2.5 text-[13px]">
+              <a href="#benefits" className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">What you get</a>
+              <a href="#why" className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">Why us</a>
+              <a href="#tiers" className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">Pricing</a>
+              <a href="/faq" className="text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors">FAQ</a>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-[10.5px] font-mono tracking-[0.1em] uppercase text-[color:var(--color-ink-4)] mb-4">
+              Disclaimer
+            </h4>
+            <p className="text-[12px] text-[color:var(--color-ink-3)] leading-[1.6]">
+              Trading involves substantial risk. Past performance does not guarantee future results.
+              This site is for educational and informational purposes only and does not constitute
+              financial advice.
+            </p>
           </div>
         </div>
-        <p className="mt-6 text-center text-xs leading-5 text-white/45">
-          Trading involves risk. This site is for educational purposes and does not
-          constitute financial advice.
-        </p>
+
+        <div
+          className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11.5px] text-[color:var(--color-ink-4)]"
+          style={{ borderTop: "1px solid var(--color-line)" }}
+        >
+          <div>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</div>
+          <div className="font-mono tracking-[0.04em]">v1 · build · {new Date().toISOString().slice(0, 10)}</div>
+        </div>
       </div>
     </footer>
   );
 }
 
+// ─── Page ──────────────────────────────────────────────────────────────────
+
 export default function Home() {
   return (
-    <div className="relative min-h-screen text-white">
-      <GlowBg />
+    <div className="min-h-screen relative" style={{ background: "var(--color-canvas)" }}>
       <Navbar />
-      <main className="relative">
+      <main>
         <Hero />
         <InsideDiscord />
         <Benefits />
