@@ -1283,30 +1283,47 @@ function Footer() {
 
 // ─── Site Watermark ────────────────────────────────────────────────────────
 
-// Large, faded brand watermark. Sits as an absolutely-positioned element
-// inside a positioned wrapper that contains the top sections of the page.
-// Scrolls WITH the page (not fixed to viewport). Visible behind Hero,
-// Inside Discord, and Benefits, then the wrapper ends and the rest of
-// the page sits on the plain canvas. Decorative only — aria-hidden.
+// Large, faded brand watermark covering the whole page. Sits as an
+// absolutely-positioned element inside the page wrapper. Scrolls WITH
+// the page (not fixed to viewport), spans the entire scrollable height
+// of <main>, and fades to transparent at the top and bottom so there are
+// no hard edges. Decorative only — aria-hidden.
 function SiteWatermark() {
   return (
     <div
       aria-hidden="true"
-      className="absolute top-0 left-0 right-0 h-[200vh] pointer-events-none overflow-hidden select-none"
+      className="absolute inset-0 pointer-events-none overflow-hidden select-none"
       style={{
-        // The watermark logo sits centered in the visible region. Fades
-        // vertically so the bottom edge doesn't have a hard cutoff.
+        // Vertical fade: 0% at top, full opacity in the middle (around
+        // the hero/intro area), 0% near the bottom. Keeps the watermark
+        // most visible where the user first lands, fades to invisible
+        // toward the footer so it doesn't compete with the closing CTA.
         maskImage:
-          "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
+          "linear-gradient(to bottom, transparent 0%, black 15%, black 70%, transparent 100%)",
         WebkitMaskImage:
-          "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
+          "linear-gradient(to bottom, transparent 0%, black 15%, black 70%, transparent 100%)",
       }}
     >
+      {/* First watermark — top half of the page */}
       <img
         src="/newage-flow-ai-logo.png"
         alt=""
-        className="absolute top-[20vh] left-1/2 -translate-x-1/2 w-[min(1400px,140vw)] max-w-none"
+        className="absolute top-[10vh] left-1/2 -translate-x-1/2 w-[min(1400px,140vw)] max-w-none"
         style={{ opacity: 0.06 }}
+      />
+      {/* Second watermark — middle of the page (around Why Us / Track Record) */}
+      <img
+        src="/newage-flow-ai-logo.png"
+        alt=""
+        className="absolute top-[180vh] left-1/2 -translate-x-1/2 w-[min(1400px,140vw)] max-w-none"
+        style={{ opacity: 0.05 }}
+      />
+      {/* Third watermark — lower portion of the page (around Tiers) */}
+      <img
+        src="/newage-flow-ai-logo.png"
+        alt=""
+        className="absolute top-[320vh] left-1/2 -translate-x-1/2 w-[min(1400px,140vw)] max-w-none"
+        style={{ opacity: 0.04 }}
       />
     </div>
   );
@@ -1318,16 +1335,13 @@ export default function Home() {
   return (
     <div className="min-h-screen relative" style={{ background: "var(--color-canvas)" }}>
       <Navbar />
-      <main>
-        {/* Watermark wrapper — covers Hero + Inside Discord + Benefits.
-            Sections inside this div are positioned relative so the
-            absolutely-positioned watermark sits behind them. */}
-        <div className="relative">
-          <SiteWatermark />
-          <Hero />
-          <InsideDiscord />
-          <Benefits />
-        </div>
+      <main className="relative">
+        {/* Site watermark — absolute, covers the entire <main> scroll
+            height, scrolls with the page (not fixed). Behind all sections. */}
+        <SiteWatermark />
+        <Hero />
+        <InsideDiscord />
+        <Benefits />
         <WhoFor />
         <WhyUs />
         <TrackRecord />
