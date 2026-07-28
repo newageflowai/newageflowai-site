@@ -117,7 +117,7 @@ function Navbar() {
           <img
             src="/newage-flow-ai-logo.png"
             alt="NewAge Flow AI logo"
-            className="h-16 w-auto object-contain"
+            className="h-16 w-auto object-contain opacity-60"
           />
           <div className="hidden sm:block leading-tight">
             <div className="text-[13px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
@@ -189,6 +189,14 @@ function Hero() {
             WebkitMaskImage:
               "radial-gradient(ellipse at center, black 30%, transparent 80%)",
           }}
+        />
+        {/* Brand watermark — large, faded logo behind hero text. Decorative only. */}
+        <img
+          src="/newage-flow-ai-logo.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(900px,90vw)] max-w-none select-none"
+          style={{ opacity: 0.045, filter: "blur(0.5px)" }}
         />
       </div>
 
