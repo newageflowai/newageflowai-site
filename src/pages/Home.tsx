@@ -117,7 +117,7 @@ function Navbar() {
           <img
             src="/newage-flow-ai-logo.png"
             alt="NewAge Flow AI logo"
-            className="h-9 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
           <div className="hidden sm:block leading-tight">
             <div className="text-[13px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
@@ -1232,7 +1232,7 @@ function Footer() {
         <div className="grid gap-10 sm:grid-cols-3 mb-10">
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <img src="/newage-flow-ai-logo.png" alt="NewAge Flow AI logo" className="h-7 w-auto" />
+              <img src="/newage-flow-ai-logo.png" alt="NewAge Flow AI logo" className="h-10 w-auto" />
               <span className="text-[13px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
                 {BRAND.name}
               </span>
