@@ -247,74 +247,128 @@ function Hero() {
 
               {/* Trade plan body */}
               <div className="p-5 sm:p-6">
-                <div className="flex items-baseline justify-between mb-5">
+                {/* Top row: setup name + grade badge */}
+                <div className="flex items-start justify-between mb-4 gap-3">
                   <div>
                     <div className="text-[10.5px] font-mono tracking-[0.1em] uppercase text-[color:var(--color-ink-3)] mb-1">
-                      Setup
+                      Setup · 13:46 ET
                     </div>
                     <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
-                      ES Short — Liquidity Rejection
+                      MES 09-26 — Coil above mHVN
                     </div>
                   </div>
                   <div
-                    className="px-2.5 py-1 rounded-md text-[10.5px] font-mono tracking-[0.08em] uppercase"
+                    className="px-2.5 py-1 rounded-md text-[10.5px] font-mono tracking-[0.08em] uppercase shrink-0"
                     style={{
-                      background: "rgba(248,113,113,.10)",
-                      color: "var(--color-neg)",
-                      border: "1px solid rgba(248,113,113,.22)",
+                      background: "var(--color-accent-soft)",
+                      color: "var(--color-accent)",
+                      border: "1px solid var(--color-accent-line)",
+                      boxShadow: "0 0 12px var(--color-accent-glow)",
                     }}
                   >
-                    Short
+                    A+ Long
                   </div>
                 </div>
 
+                {/* Live stats strip — CVD / Δ / Icebergs / Stops (real signal telemetry) */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-px rounded-xl overflow-hidden" style={{ background: "var(--color-line)" }}>
-                  <div className="bg-[color:var(--color-surface-2)] p-4">
-                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">Entry</div>
-                    <div className="text-[18px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
-                      6459.00
+                  <div className="bg-[color:var(--color-surface-2)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">CVD</div>
+                    <div className="text-[15px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-accent)]">
+                      +3,666
                     </div>
                   </div>
-                  <div className="bg-[color:var(--color-surface-2)] p-4">
-                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">Stop</div>
-                    <div className="text-[18px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-neg)]">
-                      6463.00
+                  <div className="bg-[color:var(--color-surface-2)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">Δ</div>
+                    <div className="text-[15px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                      +3.5 h
                     </div>
                   </div>
-                  <div className="bg-[color:var(--color-surface-2)] p-4">
-                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">Invalidation</div>
-                    <div className="text-[13px] tabular text-[color:var(--color-ink-2)] leading-tight">
-                      Close &gt; 6465.25
+                  <div className="bg-[color:var(--color-surface-2)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">Icebergs</div>
+                    <div className="text-[15px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                      6
                     </div>
                   </div>
-                  <div className="bg-[color:var(--color-surface-2)] p-4">
-                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1.5">R:R</div>
-                    <div className="text-[18px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-accent)]">
-                      1:2.4
+                  <div className="bg-[color:var(--color-surface-2)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">Stops</div>
+                    <div className="text-[15px] tabular font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
+                      4
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-3 grid grid-cols-3 gap-px rounded-xl overflow-hidden" style={{ background: "var(--color-line)" }}>
-                  <div className="bg-[color:var(--color-surface-1)] p-3.5 text-center">
-                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T1</div>
-                    <div className="text-[15px] tabular font-medium text-[color:var(--color-ink-1)]">6455.00</div>
+                {/* Key level — dense ask wall / mHVN */}
+                <div className="mt-3 flex items-center gap-3 px-3.5 py-2.5 rounded-xl" style={{ background: "var(--color-surface-2)", border: "1px solid var(--color-line)" }}>
+                  <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] shrink-0">
+                    Key
                   </div>
-                  <div className="bg-[color:var(--color-surface-1)] p-3.5 text-center">
-                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T2</div>
-                    <div className="text-[15px] tabular font-medium text-[color:var(--color-ink-1)]">6450.00</div>
+                  <div className="text-[13.5px] tabular font-medium text-[color:var(--color-ink-1)]">
+                    7612-7615 mHVN
                   </div>
-                  <div className="bg-[color:var(--color-surface-1)] p-3.5 text-center">
-                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T3</div>
-                    <div className="text-[15px] tabular font-medium text-[color:var(--color-ink-1)]">6445.00</div>
+                  <div className="text-[11px] text-[color:var(--color-ink-3)]">
+                    · stacked bids 86/46/49
                   </div>
                 </div>
 
-                <div className="mt-5 pt-4 border-t flex items-center justify-between" style={{ borderColor: "var(--color-line)" }}>
-                  <span className="text-[11px] font-mono text-[color:var(--color-ink-4)]">
-                    context · absorption at 6459 / rejection wick 6464.50
-                  </span>
+                {/* Trigger checklist */}
+                <div className="mt-4">
+                  <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-2">
+                    Trigger checklist
+                  </div>
+                  <ul className="space-y-1.5 text-[13px] text-[color:var(--color-ink-2)]">
+                    {[
+                      { ok: true,  text: "Dip into 7615-7612 zone" },
+                      { ok: true,  text: "Green absorption at bids" },
+                      { ok: true,  text: "Delta flip positive on 1m" },
+                    ].map((row) => (
+                      <li key={row.text} className="flex items-center gap-2">
+                        <span
+                          className="w-4 h-4 rounded-sm flex items-center justify-center text-[10px] shrink-0"
+                          style={{
+                            background: "var(--color-accent-soft)",
+                            color: "var(--color-accent)",
+                            border: "1px solid var(--color-accent-line)",
+                          }}
+                        >
+                          ✓
+                        </span>
+                        <span>{row.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Plan row — Entry / Stop / R:R ladder */}
+                <div className="mt-4 grid grid-cols-5 gap-px rounded-xl overflow-hidden" style={{ background: "var(--color-line)" }}>
+                  <div className="bg-[color:var(--color-surface-2)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">Entry</div>
+                    <div className="text-[14px] tabular font-medium text-[color:var(--color-ink-1)]">7615.00</div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-2)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">Stop</div>
+                    <div className="text-[14px] tabular font-medium text-[color:var(--color-neg)]">7613.50</div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-1)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T1 · 3.3:1</div>
+                    <div className="text-[13px] tabular font-medium text-[color:var(--color-ink-1)]">7620</div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-1)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T2 · 8:1</div>
+                    <div className="text-[13px] tabular font-medium text-[color:var(--color-ink-1)]">7627</div>
+                  </div>
+                  <div className="bg-[color:var(--color-surface-1)] p-3.5">
+                    <div className="text-[10px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">T3 · 13.3:1</div>
+                    <div className="text-[13px] tabular font-medium text-[color:var(--color-ink-1)]">7635</div>
+                  </div>
+                </div>
+
+                {/* Invalidation + context footer */}
+                <div className="mt-4 pt-3 border-t flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5" style={{ borderColor: "var(--color-line)" }}>
                   <span className="text-[11px] font-mono text-[color:var(--color-ink-3)]">
+                    <span className="text-[color:var(--color-neg)]">⚠</span> Invalidation: sustained break 7612 w/ red delta
+                  </span>
+                  <span className="text-[11px] font-mono text-[color:var(--color-ink-4)]">
                     not signals · structured execution
                   </span>
                 </div>
@@ -333,13 +387,13 @@ function DiscordChannel({
   channel,
   title,
   body,
-  pills,
+  meta,
   className = "",
 }: {
   channel: string;
   title: string;
   body: React.ReactNode;
-  pills?: React.ReactNode;
+  meta?: React.ReactNode;
   className?: string;
 }) {
   return (
@@ -382,7 +436,7 @@ function DiscordChannel({
           {body}
         </div>
 
-        {pills && <div className="mt-4 flex flex-wrap gap-1.5">{pills}</div>}
+        {meta && <div className="mt-4 flex flex-wrap gap-1.5">{meta}</div>}
       </div>
     </article>
   );
@@ -427,55 +481,83 @@ function InsideDiscord() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
+        {/* Card 1 — A+ setup signal from #ai-trade-signals */}
         <DiscordChannel
-          channel="# trade-levels"
-          title="ES Short Setup"
-          body={
+          channel="# ai-trade-signals"
+          title="MES 09-26 — Coil above mHVN"
+          meta={
             <>
-              Bias: <strong className="text-[color:var(--color-ink-1)] font-medium">Short</strong>
-              <br />
-              Entry 6459.00 · Stop 6463.00
-              <br />
-              Targets 6455 / 6450 / 6445
+              <DiscordPill accent>A+ Long</DiscordPill>
+              <DiscordPill>R:R 3.3 / 8 / 13.3</DiscordPill>
             </>
           }
-          pills={
+          body={
             <>
-              <DiscordPill accent>SHORT</DiscordPill>
-              <DiscordPill>R:R 1:2.4</DiscordPill>
-              <DiscordPill>Invalidation 6465.25</DiscordPill>
+              <div className="grid grid-cols-2 gap-px rounded-lg overflow-hidden mb-3" style={{ background: "var(--color-line)" }}>
+                {[
+                  { k: "CVD", v: "+3,666", accent: true },
+                  { k: "Δ", v: "+3.5 h" },
+                  { k: "Icebergs", v: "6" },
+                  { k: "Stops", v: "4" },
+                ].map((s) => (
+                  <div key={s.k} className="bg-[color:var(--color-surface-2)] px-3 py-2">
+                    <div className="text-[9.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">{s.k}</div>
+                    <div
+                      className="text-[13px] tabular font-medium"
+                      style={{ color: s.accent ? "var(--color-accent)" : "var(--color-ink-1)" }}
+                    >
+                      {s.v}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="text-[12.5px] text-[color:var(--color-ink-2)] leading-[1.55]">
+                <span className="text-[color:var(--color-ink-1)] font-medium">Key</span> 7612-7615 mHVN — stacked bids 86/46/49. Invalidation: sustained break 7612 w/ red delta.
+              </div>
             </>
           }
         />
+
+        {/* Card 2 — B+ Developing reasoning chain from #orderflow-analysis */}
         <DiscordChannel
-          channel="# market-context"
-          title="Liquidity Rejection"
-          body={
+          channel="# orderflow-analysis"
+          title="Why B+ not A+ — Pre-RTH coil"
+          meta={
             <>
-              Price rejected the upper liquidity zone. Watching for continuation
-              below support with absorption confirmation.
+              <DiscordPill accent>B+ developing</DiscordPill>
+              <DiscordPill>wait for trigger</DiscordPill>
             </>
           }
-          pills={
+          body={
             <>
-              <DiscordPill>absorption</DiscordPill>
-              <DiscordPill>imbalance</DiscordPill>
+              <div className="text-[12.5px] text-[color:var(--color-ink-2)] leading-[1.55] mb-3">
+                <span className="text-[color:var(--color-ink-1)] font-medium">Setup</span> LH/LL developing, 7320 HOD → 7298 LOD → bounce to 7306. CVD -1331 falling, MV Imb -11.5 (sellers), 6 icebergs, 4 stops.
+              </div>
+              <div className="text-[12.5px] text-[color:var(--color-ink-2)] leading-[1.55]">
+                <span className="text-[color:var(--color-ink-1)] font-medium">Trigger checklist</span> Red delta flip on 1m · +200 red iceberg cluster 7300-7305 · Green burst fails = stop raid into wall.
+              </div>
             </>
           }
         />
+
+        {/* Card 3 — Live trade management from #trade-chat */}
         <DiscordChannel
-          channel="# live-updates"
-          title="Trade Management"
-          body={
-            <>
-              T1 reached. Reduce risk. Stop can move toward entry depending on
-              execution model and market response.
-            </>
-          }
-          pills={
+          channel="# trade-chat"
+          title="A+ LONG — T1 hit, manage risk"
+          meta={
             <>
               <DiscordPill accent>T1 HIT</DiscordPill>
-              <DiscordPill>manage risk</DiscordPill>
+              <DiscordPill>move stop</DiscordPill>
+            </>
+          }
+          body={
+            <>
+              <div className="text-[12.5px] text-[color:var(--color-ink-2)] leading-[1.55] mb-3">
+                Entry 7615 → T1 7620 reached. Reduce risk. Stop can move to 7617 (toward entry) depending on execution model and market response.
+              </div>
+              <div className="text-[12.5px] text-[color:var(--color-ink-2)] leading-[1.55]">
+                Holding runner for T2 7627 / T3 7635 unless structure breaks above 7660 high.
+              </div>
             </>
           }
         />
@@ -489,174 +571,213 @@ function InsideDiscord() {
 }
 
 // ─── Benefits ──────────────────────────────────────────────────────────────
+// ─── Benefits ──────────────────────────────────────────────────────────────
+
+// Three-state system — A+ Setup / B+ Developing / Stand Down.
+// Each state has a distinct visual treatment so visitors immediately understand
+// the system: we don't just send signals, we grade setups and tell you when NOT
+// to trade.
+function StateBadge({ grade }: { grade: "A+" | "B+" | "Stand Down" }) {
+  const styles =
+    grade === "A+"
+      ? {
+          bg: "var(--color-accent-soft)",
+          color: "var(--color-accent)",
+          border: "1px solid var(--color-accent-line)",
+          glow: "0 0 16px var(--color-accent-glow)",
+        }
+      : grade === "B+"
+      ? {
+          bg: "var(--color-surface-3)",
+          color: "var(--color-ink-2)",
+          border: "1px solid var(--color-line)",
+          glow: "none",
+        }
+      : {
+          bg: "transparent",
+          color: "var(--color-ink-4)",
+          border: "1px solid var(--color-line)",
+          glow: "none",
+        };
+  return (
+    <span
+      className="px-2.5 py-1 rounded-md text-[10.5px] font-mono tracking-[0.1em] uppercase"
+      style={{
+        background: styles.bg,
+        color: styles.color,
+        border: styles.border,
+        boxShadow: styles.glow,
+      }}
+    >
+      {grade}
+    </span>
+  );
+}
 
 function Benefits() {
   return (
     <section id="benefits" className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
-      <div className="mx-auto max-w-2xl text-center mb-14">
+      <div className="mx-auto max-w-2xl text-center mb-12">
         <div className="flex justify-center mb-4">
-          <Eyebrow>What you get</Eyebrow>
+          <Eyebrow>The system</Eyebrow>
         </div>
         <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
-          Everything you need to execute with structure.
+          A+ setups. B+ patience. Stand-down discipline.
         </h2>
         <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
-          No clutter. No hype. Clear trade plans with real-time context.
+          Most signal services send everything. We grade every setup — and tell you when to sit out.
         </p>
       </div>
 
-      {/* Asymmetric layout — break the identical-card-stamp pattern */}
+      {/* 3-state grid */}
       <div className="grid gap-4 lg:grid-cols-3">
-        {/* Featured card spans 2 cols */}
+        {/* A+ Setup — featured */}
         <div
-          className="lg:col-span-2 rounded-2xl p-7 sm:p-9 relative overflow-hidden"
+          className="rounded-2xl p-7 sm:p-8 relative overflow-hidden"
           style={{
             background:
               "linear-gradient(180deg, var(--color-surface-2) 0%, var(--color-surface-1) 100%)",
-            border: "1px solid var(--color-line)",
+            border: "1px solid var(--color-accent-line)",
+            boxShadow: "0 0 0 1px var(--color-accent-line), 0 24px 60px -24px rgba(0,0,0,.6)",
           }}
         >
           <div
             aria-hidden
-            className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full pointer-events-none"
+            className="absolute -top-32 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full pointer-events-none"
             style={{
-              background:
-                "radial-gradient(circle, rgba(200,255,59,.08) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(200,255,59,.10) 0%, transparent 70%)",
             }}
           />
           <div className="relative">
-            <div className="flex items-center gap-3 mb-5">
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center text-[18px]"
-                style={{
-                  background: "var(--color-accent-soft)",
-                  border: "1px solid var(--color-accent-line)",
-                }}
-              >
-                📈
-              </div>
-              <div>
-                <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">
-                  01
-                </div>
-                <div className="text-[16px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
-                  AI Trade Levels
-                </div>
-              </div>
+            <div className="flex items-center justify-between mb-4">
+              <StateBadge grade="A+" />
+              <span className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">
+                act on it
+              </span>
             </div>
-            <p className="text-[14.5px] leading-[1.65] text-[color:var(--color-ink-2)] max-w-xl">
-              Actionable trade plans with <strong className="text-[color:var(--color-ink-1)] font-medium">entry, re-entry, stop, and three targets</strong>.
-              Designed for clean execution and risk-defined decision-making — not
-              indicator clutter.
+            <div className="text-[18px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)] mb-2">
+              A+ Setup
+            </div>
+            <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)] mb-5">
+              Full trade plan with grade, entry, stop, 3 targets, R:R ladder, and trigger checklist.
+              This is the signal — execute with confidence.
             </p>
-
-            {/* Mini artifact preview */}
-            <div className="mt-6 grid grid-cols-4 gap-px rounded-lg overflow-hidden" style={{ background: "var(--color-line)" }}>
-              {["Entry", "Stop", "T1", "T2"].map((k) => (
-                <div key={k} className="bg-[color:var(--color-surface-1)] p-3">
-                  <div className="text-[9.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-4)] mb-0.5">{k}</div>
-                  <div className="text-[13px] tabular font-medium text-[color:var(--color-ink-1)]">6459.00</div>
+            <div className="grid grid-cols-3 gap-px rounded-lg overflow-hidden" style={{ background: "var(--color-line)" }}>
+              {[
+                { k: "Entry", v: "7615.00" },
+                { k: "Stop", v: "7613.50" },
+                { k: "R:R", v: "3.3:1", accent: true },
+              ].map((s) => (
+                <div key={s.k} className="bg-[color:var(--color-surface-1)] p-3">
+                  <div className="text-[9.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)] mb-1">{s.k}</div>
+                  <div
+                    className="text-[12.5px] tabular font-medium"
+                    style={{ color: s.accent ? "var(--color-accent)" : "var(--color-ink-1)" }}
+                  >
+                    {s.v}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Right column — two stacked cards with different visuals */}
-        <div className="grid gap-4">
-          <div
-            className="rounded-2xl p-6"
-            style={{
-              background: "var(--color-surface-1)",
-              border: "1px solid var(--color-line)",
-            }}
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-[16px]"
-                style={{
-                  background: "var(--color-surface-3)",
-                  border: "1px solid var(--color-line)",
-                }}
-              >
-                🔥
-              </div>
-              <div>
-                <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">02</div>
-                <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
-                  Order Flow Intel
-                </div>
-              </div>
-            </div>
-            <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)]">
-              AI-assisted analysis on liquidity, absorption, imbalances, and
-              momentum — focused on where price is likely to react.
-            </p>
-          </div>
-
-          <div
-            className="rounded-2xl p-6"
-            style={{
-              background: "var(--color-surface-1)",
-              border: "1px solid var(--color-line)",
-            }}
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-[16px]"
-                style={{
-                  background: "var(--color-surface-3)",
-                  border: "1px solid var(--color-line)",
-                }}
-              >
-                🧠
-              </div>
-              <div>
-                <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">03</div>
-                <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)]">
-                  Live Context
-                </div>
-              </div>
-            </div>
-            <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)]">
-              You get the why, not just the what. Bias, reasoning, and updates as
-              the market shifts — so you can adapt.
-            </p>
-          </div>
-        </div>
-
-        {/* Full-width card spanning 3 cols */}
+        {/* B+ Developing */}
         <div
-          className="lg:col-span-3 rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center gap-5"
+          className="rounded-2xl p-7 sm:p-8"
           style={{
             background: "var(--color-surface-1)",
             border: "1px solid var(--color-line)",
           }}
         >
+          <div className="flex items-center justify-between mb-4">
+            <StateBadge grade="B+" />
+            <span className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">
+              wait for trigger
+            </span>
+          </div>
+          <div className="text-[18px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)] mb-2">
+            B+ Developing
+          </div>
+          <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)] mb-5">
+            Structure is forming but conditions aren't met. You get the level, the trigger checklist,
+            and the invalidation — without a premature entry.
+          </p>
+          <ul className="space-y-2 text-[12.5px] text-[color:var(--color-ink-2)]">
+            {[
+              "Key level marked",
+              "Trigger checklist",
+              "Wait for confirmation",
+            ].map((t) => (
+              <li key={t} className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "var(--color-ink-4)" }} />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Stand Down */}
+        <div
+          className="rounded-2xl p-7 sm:p-8"
+          style={{
+            background: "var(--color-surface-1)",
+            border: "1px solid var(--color-line)",
+          }}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <StateBadge grade="Stand Down" />
+            <span className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-4)]">
+              no trade
+            </span>
+          </div>
+          <div className="text-[18px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)] mb-2">
+            Stand Down
+          </div>
+          <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)] mb-5">
+            No A+ setup. No forcing it. We tell you when not to trade —
+            so you don't revenge-trade chop or chase late moves.
+          </p>
           <div
-            className="w-12 h-12 rounded-lg flex items-center justify-center text-[20px] shrink-0"
-            style={{
-              background: "var(--color-surface-3)",
-              border: "1px solid var(--color-line)",
-            }}
+            className="text-[11.5px] font-mono tracking-[0.02em] text-[color:var(--color-ink-4)] px-3 py-2.5 rounded-lg"
+            style={{ background: "var(--color-surface-2)", border: "1px solid var(--color-line)" }}
           >
-            ⚙️
+            "A+ SHORT IS DEAD — 7300 didn't cascade"
           </div>
-          <div className="flex-1">
-            <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">04</div>
-            <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)] mt-0.5">
-              Built for Professional Platforms
-            </div>
-            <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)] mt-1.5 max-w-2xl">
-              Designed to complement NinjaTrader and Bookmap-style workflows —
-              built by traders, for traders who take execution seriously.
-            </p>
+        </div>
+      </div>
+
+      {/* Bottom row — platform compatibility (kept from pass-1) */}
+      <div
+        className="mt-4 lg:col-span-3 rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center gap-5"
+        style={{
+          background: "var(--color-surface-1)",
+          border: "1px solid var(--color-line)",
+        }}
+      >
+        <div
+          className="w-12 h-12 rounded-lg flex items-center justify-center text-[20px] shrink-0"
+          style={{
+            background: "var(--color-surface-3)",
+            border: "1px solid var(--color-line)",
+          }}
+        >
+          ⚙️
+        </div>
+        <div className="flex-1">
+          <div className="text-[10.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">04</div>
+          <div className="text-[15px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-1)] mt-0.5">
+            Built for professional platforms
           </div>
-          <div className="flex flex-wrap gap-2">
-            <DiscordPill>NinjaTrader</DiscordPill>
-            <DiscordPill>Bookmap</DiscordPill>
-            <DiscordPill>Order Flow</DiscordPill>
-          </div>
+          <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)] mt-1.5 max-w-2xl">
+            Designed to complement NinjaTrader and Bookmap-style workflows —
+            built by traders, for traders who take execution seriously.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <DiscordPill>NinjaTrader</DiscordPill>
+          <DiscordPill>Bookmap</DiscordPill>
+          <DiscordPill>Order Flow</DiscordPill>
         </div>
       </div>
     </section>
