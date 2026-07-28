@@ -144,7 +144,20 @@ function Navbar() {
           </a>
         </nav>
 
-        <PrimaryButton href="#tiers">{BRAND.primaryCta}</PrimaryButton>
+        <div className="flex items-center gap-3">
+          <a
+            href="https://discord.gg/xaeWzs9as"
+            target="_blank"
+            rel="noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 text-[12.5px] font-medium tracking-[-0.01em] text-[color:var(--color-ink-2)] hover:text-[color:var(--color-ink-1)] transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+            </svg>
+            Discord
+          </a>
+          <PrimaryButton href="#tiers">{BRAND.primaryCta}</PrimaryButton>
+        </div>
       </div>
     </header>
   );
@@ -561,6 +574,70 @@ function InsideDiscord() {
             </>
           }
         />
+      </div>
+
+      {/* Daily recap — wider card spanning full width with prose format */}
+      <div
+        className="mt-4 rounded-2xl overflow-hidden"
+        style={{
+          background: "var(--color-surface-1)",
+          border: "1px solid var(--color-line)",
+          boxShadow: "0 1px 2px rgba(0,0,0,.4), 0 24px 60px -24px rgba(0,0,0,.6)",
+        }}
+      >
+        <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: "var(--color-line)" }}>
+          <div className="flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-ink-4)" aria-hidden>
+              <path d="M5.886 4.85c-.79-.4-1.62-.7-2.49-.86l-.21 1.36c.79.18 1.55.46 2.27.84l.43-1.34zm12.228 0l.43 1.34c.72-.38 1.48-.66 2.27-.84l-.21-1.36c-.87.16-1.7.46-2.49.86zM9.05 14.6c1.18 0 2.13-.96 2.13-2.13 0-1.18-.96-2.13-2.13-2.13-1.18 0-2.13.96-2.13 2.13 0 1.18.96 2.13 2.13 2.13zm5.9 0c1.18 0 2.13-.96 2.13-2.13 0-1.18-.96-2.13-2.13-2.13-1.18 0-2.13.96-2.13 2.13 0 1.18.96 2.13 2.13 2.13z" />
+            </svg>
+            <span className="text-[12.5px] font-mono tracking-[0.02em] text-[color:var(--color-ink-2)]">
+              # daily-recaps
+            </span>
+          </div>
+          <span className="text-[10.5px] font-mono text-[color:var(--color-ink-4)]">06/15 · RTH wrap</span>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-0">
+          {/* Author + meta */}
+          <div className="lg:col-span-1 px-5 py-4 border-b lg:border-b-0 lg:border-r" style={{ borderColor: "var(--color-line)" }}>
+            <div className="flex items-center gap-2.5 mb-3">
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-[10.5px] font-medium tracking-[-0.01em] text-[color:var(--color-accent-ink)]"
+                style={{ background: "var(--color-accent)" }}
+              >
+                NA
+              </div>
+              <div>
+                <div className="text-[13.5px] font-medium text-[color:var(--color-ink-1)]">NewAge Flow</div>
+                <div className="text-[10.5px] font-mono text-[color:var(--color-ink-4)]">bot · daily recap</div>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              <DiscordPill>ES 06-26</DiscordPill>
+              <DiscordPill>ES 09-26</DiscordPill>
+              <DiscordPill>+1 net R</DiscordPill>
+              <DiscordPill>1 win / 0 loss</DiscordPill>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="lg:col-span-2 px-5 py-4">
+            <div className="text-[15px] font-medium tracking-[-0.005em] text-[color:var(--color-ink-1)] mb-3">
+              Afternoon RTH wrap — 06/15
+            </div>
+            <div className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)] space-y-2.5">
+              <p>
+                ES 06-26 pre-RTH coil at 7300 graded B+ developing. We held off — by 09:35 the level failed twice and CVD rolled over. No trade.
+              </p>
+              <p>
+                ES 09-26 afternoon setup graded <span className="text-[color:var(--color-accent)] font-medium">A+ Long</span> on the 13:46 dip into the 7612-7615 mHVN. Three triggers fired: green absorption at bids, delta flip positive, icebergs held. T1 7620 hit at 14:12. Stop moved to 7617. T2 7627 hit at 14:38. Closed at T2 — runner cancelled above 7660 resistance.
+              </p>
+              <p>
+                Net day: <span className="text-[color:var(--color-ink-1)] font-medium">+1R</span>. No chase, no revenge, no A+ short on the morning.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="mt-12 text-center">
@@ -1041,6 +1118,74 @@ function TierCard({ tier, featured = false }: { tier: Tier; featured?: boolean }
   );
 }
 
+// ─── Track Record ──────────────────────────────────────────────────────────
+
+function TrackRecord() {
+  // Numbers are illustrative placeholders — replace with real verified stats
+  // before going live. Keep the structure (verifiable methodology + small sample).
+  const stats = [
+    { label: "Hits T1+",     value: "23/28", sub: "verified closed trades · last 30 sessions" },
+    { label: "Avg R:R",      value: "1:2.4", sub: "weighted across all closed setups" },
+    { label: "Best streak",  value: "8 in a row", sub: "A+ setups only · Jun 8 – Jun 15" },
+    { label: "Max drawdown", value: "−2.0R",  sub: "single losing day · controlled" },
+  ];
+
+  return (
+    <section id="track-record" className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-2xl text-center mb-12">
+        <div className="flex justify-center mb-4">
+          <Eyebrow>Track record</Eyebrow>
+        </div>
+        <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+          Not promise. Proof.
+        </h2>
+        <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+          Verified closed trades from the #daily-recaps channel. Methodology and
+          timestamps available on request — every stat traces to a Discord post.
+        </p>
+      </div>
+
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl overflow-hidden" style={{ background: "var(--color-line)" }}>
+        {stats.map((s) => (
+          <div key={s.label} className="bg-[color:var(--color-surface-1)] p-7 sm:p-8">
+            <div className="text-[10.5px] font-mono tracking-[0.1em] uppercase text-[color:var(--color-ink-3)] mb-3">
+              {s.label}
+            </div>
+            <div className="text-[clamp(36px,4.5vw,52px)] font-medium tracking-[-0.04em] tabular leading-none text-[color:var(--color-ink-1)] mb-3">
+              {s.value}
+            </div>
+            <div className="text-[12px] leading-[1.5] text-[color:var(--color-ink-3)]">
+              {s.sub}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Verification row */}
+      <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-5 py-4 rounded-xl"
+        style={{
+          background: "var(--color-surface-1)",
+          border: "1px solid var(--color-line)",
+        }}
+      >
+        <div className="flex items-center gap-3">
+          <span className="dot-live" />
+          <div>
+            <div className="text-[13px] font-medium text-[color:var(--color-ink-1)]">
+              Last 30 sessions · verified
+            </div>
+            <div className="text-[12px] text-[color:var(--color-ink-3)] mt-0.5">
+              All numbers trace to #daily-recaps timestamps. Sample is small — that's why we publish methodology, not just totals.
+            </div>
+          </div>
+        </div>
+        <DiscordPill>methodology</DiscordPill>
+      </div>
+    </section>
+  );
+}
+
 // ─── Tiers ─────────────────────────────────────────────────────────────────
 
 function Tiers() {
@@ -1145,6 +1290,7 @@ export default function Home() {
         <Benefits />
         <WhoFor />
         <WhyUs />
+        <TrackRecord />
         <Tiers />
       </main>
       <Footer />
