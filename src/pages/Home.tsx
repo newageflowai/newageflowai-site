@@ -1339,6 +1339,269 @@ function TierCard({ tier, featured = false }: { tier: Tier; featured?: boolean }
   );
 }
 
+// ─── Welcome Flow ──────────────────────────────────────────────────────────
+// First 5 minutes inside the server. Step-by-step preview answering
+// "what do I do first?" — pulls directly from the 16 channels in Server Map so
+// the mental model is identical.
+
+type WelcomeStep = {
+  minute: string;
+  title: string;
+  body: string;
+  channels: { name: string; tag: "core" | "live" | "read" }[];
+  icon: React.ReactNode;
+};
+
+const WELCOME_STEPS: WelcomeStep[] = [
+  {
+    minute: "00:00",
+    title: "You join. Welcome channel auto-DMs you.",
+    body: "Discord fires the welcome embed. You get a short read: who we are, what the grading system means, and where to look first.",
+    channels: [{ name: "welcome", tag: "read" }],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3" />
+      </svg>
+    ),
+  },
+  {
+    minute: "00:30",
+    title: "Read the rules. Read how-it-works.",
+    body: "Two channels, four minutes total. After that you understand the A+ format, the no-promotion/no-signal-spam rules, and where everything lives.",
+    channels: [
+      { name: "rules", tag: "core" },
+      { name: "how-it-works", tag: "core" },
+    ],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </svg>
+    ),
+  },
+  {
+    minute: "01:30",
+    title: "Mute everything you don't need.",
+    body: "Most servers want you to read 20 channels. We want you to read 3. Mute #off-topic, #gains-losses, #prop-payouts — pull them in when you want them, push them out when you don't.",
+    channels: [
+      { name: "off-topic", tag: "live" },
+      { name: "gains-losses", tag: "live" },
+      { name: "prop-payouts", tag: "core" },
+    ],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" />
+      </svg>
+    ),
+  },
+  {
+    minute: "02:00",
+    title: "Set your daily-levels alert.",
+    body: "Inside #daily-levels, the bot posts mHVN, single prints, and key S/R for the session. Pin the channel. That's your morning pre-flight.",
+    channels: [
+      { name: "daily-levels", tag: "live" },
+      { name: "ai-trade-signals", tag: "core" },
+    ],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+      </svg>
+    ),
+  },
+  {
+    minute: "03:00",
+    title: "Sit through one RTH session in #trade-chat.",
+    body: "No need to fire trades yet. Watch the live trade management — T1 hits, stop moves, runner logic. After one session you understand the execution model.",
+    channels: [
+      { name: "trade-chat", tag: "live" },
+      { name: "orderflow-analysis", tag: "core" },
+    ],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
+  },
+  {
+    minute: "05:00",
+    title: "You're caught up. Post in #charts if you want feedback.",
+    body: "You've seen the welcome embed, the rules, the system format, the live channels. The server isn't a firehose — it's a workspace. Now go trade.",
+    channels: [
+      { name: "charts", tag: "live" },
+      { name: "general-chat", tag: "live" },
+    ],
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    ),
+  },
+];
+
+function ChannelChip({ name, tag }: { name: string; tag: "core" | "live" | "read" }) {
+  const styles =
+    tag === "core"
+      ? {
+          background: "var(--color-accent-soft)",
+          color: "var(--color-accent)",
+          border: "1px solid var(--color-accent-line)",
+        }
+      : tag === "live"
+      ? {
+          background: "var(--color-surface-2)",
+          color: "var(--color-ink-2)",
+          border: "1px solid var(--color-line)",
+        }
+      : {
+          background: "transparent",
+          color: "var(--color-ink-3)",
+          border: "1px solid var(--color-line)",
+        };
+  return (
+    <span
+      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11.5px] font-mono tracking-[0.02em]"
+      style={styles}
+    >
+      <span style={{ opacity: 0.6 }}>#</span>
+      {name}
+    </span>
+  );
+}
+
+function WelcomeFlow() {
+  return (
+    <section id="welcome-flow" className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="grid gap-10 lg:grid-cols-5 lg:items-start">
+        {/* Left column — heading + intro */}
+        <div className="lg:col-span-2 lg:sticky lg:top-24">
+          <div className="mb-4">
+            <Eyebrow>Welcome flow</Eyebrow>
+          </div>
+          <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+            From invite to caught up in 5 minutes.
+          </h2>
+          <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+            No 20-channel firehose. No 800-message welcome DM. Exactly what to read,
+            what to mute, and when you're ready to trade.
+          </p>
+
+          <div className="mt-8 grid grid-cols-3 gap-3">
+            {[
+              { k: "Read", v: "3 channels" },
+              { k: "Mute", v: "3 channels" },
+              { k: "Pin", v: "1 channel" },
+            ].map((s) => (
+              <div
+                key={s.k}
+                className="rounded-lg p-3"
+                style={{
+                  background: "var(--color-surface-1)",
+                  border: "1px solid var(--color-line)",
+                }}
+              >
+                <div className="text-[9.5px] font-mono tracking-[0.08em] uppercase text-[color:var(--color-ink-3)]">
+                  {s.k}
+                </div>
+                <div className="text-[13.5px] font-medium text-[color:var(--color-ink-1)] mt-1">
+                  {s.v}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right column — step-by-step timeline */}
+        <div className="lg:col-span-3 relative">
+          {/* Vertical timeline rail */}
+          <div
+            aria-hidden
+            className="absolute left-[19px] top-3 bottom-3 w-px"
+            style={{
+              background:
+                "linear-gradient(180deg, var(--color-ink-4) 0%, var(--color-accent) 50%, var(--color-ink-4) 100%)",
+              opacity: 0.45,
+            }}
+          />
+
+          <ol className="space-y-6">
+            {WELCOME_STEPS.map((step, i) => (
+              <li key={i} className="relative pl-12">
+                {/* Step bubble */}
+                <div
+                  className="absolute left-0 top-0 w-10 h-10 rounded-full flex items-center justify-center"
+                  style={{
+                    background:
+                      i === WELCOME_STEPS.length - 1
+                        ? "var(--color-accent)"
+                        : "var(--color-surface-2)",
+                    border:
+                      i === WELCOME_STEPS.length - 1
+                        ? "1px solid var(--color-accent-line)"
+                        : "1px solid var(--color-line)",
+                    boxShadow:
+                      i === WELCOME_STEPS.length - 1
+                        ? "0 0 16px var(--color-accent-glow)"
+                        : "none",
+                    color:
+                      i === WELCOME_STEPS.length - 1
+                        ? "var(--color-accent-ink)"
+                        : "var(--color-ink-2)",
+                  }}
+                >
+                  {step.icon}
+                </div>
+
+                <div
+                  className="rounded-xl p-5"
+                  style={{
+                    background: "var(--color-surface-1)",
+                    border: "1px solid var(--color-line)",
+                  }}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <span
+                      className="text-[10.5px] font-mono tracking-[0.08em] uppercase px-1.5 py-0.5 rounded"
+                      style={{
+                        background: "var(--color-surface-2)",
+                        color: "var(--color-ink-3)",
+                        border: "1px solid var(--color-line)",
+                      }}
+                    >
+                      {step.minute}
+                    </span>
+                    <span className="text-[10.5px] font-mono text-[color:var(--color-ink-4)]">
+                      step {i + 1} / {WELCOME_STEPS.length}
+                    </span>
+                  </div>
+
+                  <h3 className="text-[15.5px] font-medium tracking-[-0.005em] text-[color:var(--color-ink-1)] mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-[13.5px] leading-[1.6] text-[color:var(--color-ink-2)]">
+                    {step.body}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {step.channels.map((ch) => (
+                      <ChannelChip key={ch.name} name={ch.name} tag={ch.tag} />
+                    ))}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div className="mt-12 text-center">
+        <PrimaryButton href="https://discord.gg/xaeWzs9as" external>
+          Join the server
+        </PrimaryButton>
+      </div>
+    </section>
+  );
+}
+
 // ─── Track Record ──────────────────────────────────────────────────────────
 
 function TrackRecord() {
@@ -1562,6 +1825,7 @@ export default function Home() {
         <Hero />
         <InsideDiscord />
         <ServerMap />
+        <WelcomeFlow />
         <Benefits />
         <WhoFor />
         <WhyUs />
