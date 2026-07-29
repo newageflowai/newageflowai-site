@@ -648,7 +648,227 @@ function InsideDiscord() {
   );
 }
 
-// ─── Benefits ──────────────────────────────────────────────────────────────
+// ─── Server Map ────────────────────────────────────────────────────────────
+// Channel-by-channel mood board. Lifted from the actual NewAge Flow AI Discord
+// sidebar — every category + channel name comes from the real server. Format:
+// collapsible-looking category cards (rendered expanded) with channel rows that
+// answer "what is this channel for" in one line.
+
+type ChannelRow = {
+  name: string;
+  purpose: string;
+  active?: boolean;
+  highlight?: boolean;
+};
+
+type ChannelCategory = {
+  number: string;
+  title: string;
+  tagline: string;
+  channels: ChannelRow[];
+};
+
+const SERVER_CATEGORIES: ChannelCategory[] = [
+  {
+    number: "01",
+    title: "Start here",
+    tagline: "Read this first. Mute everything else.",
+    channels: [
+      { name: "welcome", purpose: "Intro, who we are, what to expect on day 1.", active: true },
+      { name: "rules", purpose: "House rules, formatting, what gets you removed.", highlight: true },
+      { name: "how-it-works", purpose: "A+ format, signal flow, how to read a trade plan.", highlight: true },
+      { name: "disclaimer", purpose: "Risk disclosure, no financial advice, your money your call.", active: true },
+    ],
+  },
+  {
+    number: "02",
+    title: "Announcements",
+    tagline: "Updates, schedule changes, model revisions.",
+    channels: [
+      { name: "announcements", purpose: "Server-wide updates from the team.", active: true },
+      { name: "schedule", purpose: "Trading hours, holiday closures, ETH/RTH notes.", active: true },
+    ],
+  },
+  {
+    number: "03",
+    title: "AI trade signals",
+    tagline: "Where the signals actually live.",
+    channels: [
+      { name: "ai-trade-signals", purpose: "Live A+ setups with entry, stop, R:R ladder, triggers.", highlight: true, active: true },
+      { name: "trade-chat", purpose: "Real-time management — T1/T2/T3 hits, stop moves, runners.", active: true },
+    ],
+  },
+  {
+    number: "04",
+    title: "Analysis & education",
+    tagline: "Why the signal fired — and why we passed on the ones we didn't.",
+    channels: [
+      { name: "orderflow-analysis", purpose: "Deep-reads on CVD, delta, icebergs, MV imbalance.", highlight: true },
+      { name: "daily-recaps", purpose: "End-of-day writeup: wins, losses, B+ that didn't fire.", highlight: true },
+      { name: "daily-levels", purpose: "mHVN, single prints, key support/resistance for the session.", active: true },
+      { name: "education", purpose: "Replays, breakdowns, order flow fundamentals.", active: true },
+    ],
+  },
+  {
+    number: "05",
+    title: "Community",
+    tagline: "Where traders actually talk.",
+    channels: [
+      { name: "general-chat", purpose: "Anything trade-related that isn't a setup call.", active: true },
+      { name: "charts", purpose: "Drop your charts for peer review.", active: true },
+      { name: "prop-payouts", purpose: "Funded-account payouts and milestones.", highlight: true },
+      { name: "gains-losses", purpose: "Wins, losses, screenshots — kept honest.", active: true },
+      { name: "off-topic", purpose: "Laptops, setups, espresso, life between sessions.", active: true },
+    ],
+  },
+  {
+    number: "06",
+    title: "Support",
+    tagline: "Stuck? Ask here.",
+    channels: [
+      { name: "support", purpose: "Bot commands, tier upgrades, account help.", active: true },
+    ],
+  },
+];
+
+function CategoryCard({ cat }: { cat: ChannelCategory }) {
+  return (
+    <div
+      className="rounded-2xl overflow-hidden"
+      style={{
+        background: "var(--color-surface-1)",
+        border: "1px solid var(--color-line)",
+        boxShadow: "0 1px 2px rgba(0,0,0,.4), 0 24px 60px -24px rgba(0,0,0,.6)",
+      }}
+    >
+      {/* Header */}
+      <div
+        className="px-5 py-4 border-b flex items-start gap-3"
+        style={{ borderColor: "var(--color-line)" }}
+      >
+        <span
+          className="text-[10.5px] font-mono tracking-[0.08em] uppercase shrink-0 mt-0.5"
+          style={{ color: "var(--color-ink-4)" }}
+        >
+          {cat.number}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-ink-4)" aria-hidden>
+              <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm6 8h-4v-2h4v2zm0-4h-4v-2h4v2zm0-4h-4V7h4v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z" />
+            </svg>
+            <span className="text-[14.5px] font-medium tracking-[-0.005em] text-[color:var(--color-ink-1)]">
+              {cat.title}
+            </span>
+          </div>
+          <p className="text-[12.5px] leading-[1.5] text-[color:var(--color-ink-3)]">
+            {cat.tagline}
+          </p>
+        </div>
+      </div>
+
+      {/* Channel rows */}
+      <div className="px-2 py-1">
+        {cat.channels.map((ch) => (
+          <div
+            key={ch.name}
+            className="group flex items-start gap-3 px-3 py-2.5 rounded-lg transition-colors hover:bg-[color:var(--color-surface-2)]"
+          >
+            <span
+              className="text-[15px] mt-0.5 shrink-0 font-mono"
+              style={{
+                color: ch.highlight
+                  ? "var(--color-accent)"
+                  : "var(--color-ink-4)",
+              }}
+              aria-hidden
+            >
+              #
+            </span>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span
+                  className="text-[13.5px] font-mono tracking-[0.01em]"
+                  style={{
+                    color: ch.highlight
+                      ? "var(--color-ink-1)"
+                      : "var(--color-ink-2)",
+                    fontWeight: ch.highlight ? 500 : 400,
+                  }}
+                >
+                  {ch.name}
+                </span>
+                {ch.highlight && (
+                  <span
+                    className="text-[9.5px] font-mono tracking-[0.08em] uppercase px-1.5 py-0.5 rounded"
+                    style={{
+                      background: "var(--color-accent-soft)",
+                      color: "var(--color-accent)",
+                      border: "1px solid var(--color-accent-line)",
+                    }}
+                  >
+                    core
+                  </span>
+                )}
+                {ch.active && (
+                  <span
+                    className="text-[9.5px] font-mono tracking-[0.08em] uppercase px-1.5 py-0.5 rounded inline-flex items-center gap-1"
+                    style={{
+                      background: "var(--color-surface-2)",
+                      color: "var(--color-ink-3)",
+                      border: "1px solid var(--color-line)",
+                    }}
+                  >
+                    <span
+                      className="w-1 h-1 rounded-full"
+                      style={{ background: "var(--color-pos)" }}
+                    />
+                    live
+                  </span>
+                )}
+              </div>
+              <p className="text-[12px] leading-[1.5] text-[color:var(--color-ink-3)] mt-0.5">
+                {ch.purpose}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ServerMap() {
+  return (
+    <section id="server-map" className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-2xl text-center mb-14">
+        <div className="flex justify-center mb-4">
+          <Eyebrow>Server map</Eyebrow>
+        </div>
+        <h2 className="h-display text-[clamp(28px,3.4vw,40px)] text-[color:var(--color-ink-1)]">
+          20 channels. Zero noise.
+        </h2>
+        <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
+          Every channel earns its place. Here's the full layout — what it is,
+          what belongs there, and why it's marked "core."
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {SERVER_CATEGORIES.map((cat) => (
+          <CategoryCard key={cat.number} cat={cat} />
+        ))}
+      </div>
+
+      <div className="mt-12 text-center">
+        <PrimaryButton href="https://discord.gg/xaeWzs9as" external>
+          See it live in Discord
+        </PrimaryButton>
+      </div>
+    </section>
+  );
+}
+
 // ─── Benefits ──────────────────────────────────────────────────────────────
 
 // Three-state system — A+ Setup / B+ Developing / Stand Down.
@@ -1341,6 +1561,7 @@ export default function Home() {
         <SiteWatermark />
         <Hero />
         <InsideDiscord />
+        <ServerMap />
         <Benefits />
         <WhoFor />
         <WhyUs />
