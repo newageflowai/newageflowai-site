@@ -1683,8 +1683,8 @@ function Tiers() {
           Pick your access level.
         </h2>
         <p className="mt-4 text-[15px] leading-[1.65] text-[color:var(--color-ink-2)]">
-          Free public Discord, or jump to Early Access for AI trade levels and live context.
-          Standard and Pro tiers open soon.
+          Start free, or jump to Early Access for ES trade levels and live context.
+          Standard adds NQ, Pro adds direct desk access.
         </p>
       </div>
 
